@@ -67,8 +67,16 @@ public class MainMenu extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas) {
         super.draw(canvas);
         if (canvas != null) {
+            Paint paint = new Paint();
             paint.setColor(Color.WHITE);
-            canvas.drawRect(30, 30, screenWidth - 30, screenHeight - 30, paint);
+            canvas.drawPaint(paint);
+
+            paint.setColor(Color.BLACK);
+            paint.setTextSize(50);
+            paint.setTextAlign(Paint.Align.CENTER);
+            int xPos = (canvas.getWidth() / 2);
+            int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
+            canvas.drawText("Some text", xPos, yPos, paint);
         }
     }
 }
