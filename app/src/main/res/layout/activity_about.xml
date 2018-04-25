@@ -55,6 +55,13 @@
             android:layout_height="wrap_content"
             android:text="Landmine"
             android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sencer Schurk"
+            android:textAlignment="center" />
     </LinearLayout>
 
 
