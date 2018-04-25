@@ -16,6 +16,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".SettingsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SHOW_SETTINGS" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".AboutActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SHOW_ABOUT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".PlayGameActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.PLAY_GAME" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

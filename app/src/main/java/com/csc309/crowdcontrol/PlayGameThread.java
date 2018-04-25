@@ -3,22 +3,20 @@ package com.csc309.crowdcontrol;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
-import com.csc309.crowdcontrol.MainMenu;
-
-public class MainThread extends Thread {
+public class PlayGameThread extends Thread {
 
     private SurfaceHolder surfaceHolder;
-    private com.csc309.crowdcontrol.MainMenu mainMenu;
+    private com.csc309.crowdcontrol.PlayGame playGame;
     private boolean running;
     private int targetFPS = 30;
     private double averageFPS;
 
     public static Canvas canvas;
 
-    public MainThread(SurfaceHolder surfaceHolder, MainMenu mainMenu) {
+    public PlayGameThread(SurfaceHolder surfaceHolder, PlayGame playGame) {
         super();
         this.surfaceHolder = surfaceHolder;
-        this.mainMenu = mainMenu;
+        this.playGame = playGame;
     }
 
     @Override
@@ -37,7 +35,8 @@ public class MainThread extends Thread {
             try {
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized(surfaceHolder) {
-                    this.mainMenu.draw(canvas);
+                    this.playGame.update();
+                    this.playGame.draw(canvas);
                 }
             } catch (Exception e) {} finally {
                 if (canvas != null) {

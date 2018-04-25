@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
+
+
+    <TableLayout
+        android:layout_width="395dp"
+        android:layout_height="643dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Action Sounds"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="37dp"
+        tools:layout_editor_absoluteY="95dp" />
+
+    <TextView
+        android:id="@+id/title4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Action Sounds"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="37dp"
+        tools:layout_editor_absoluteY="155dp" />
+
+    <TextView
+        android:id="@+id/title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Background Music"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="37dp"
+        tools:layout_editor_absoluteY="41dp" />
+</android.support.constraint.ConstraintLayout>
