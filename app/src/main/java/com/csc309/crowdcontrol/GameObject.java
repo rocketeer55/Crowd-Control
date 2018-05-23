@@ -2,11 +2,13 @@ package com.csc309.crowdcontrol;
 
 import android.graphics.Canvas;
 
-public interface GameObject {
+abstract class GameObject {
 
-    void draw(Canvas canvas);
+    public String type;
 
-    void update();
+    public abstract void draw(Canvas canvas);
 
-    boolean shouldDelete();
+    public abstract void update(float songPos);
+
+    public abstract boolean shouldDelete();
 }

@@ -27,4 +27,19 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
+
+
+    //Brads'S DANK ASS test CODE.
+    public void showLevel(View view)
+    {
+        Intent intent = new Intent(this, PlayLevelActivity.class);
+        startActivity(intent);
+    }
+
+    //Leaving this typo as is. The integrity of the app depends on it.
+    public void showDeubg(View view)
+    {
+        Intent intent = new Intent(this, Debug.class);
+        startActivity(intent);
+    }
 }

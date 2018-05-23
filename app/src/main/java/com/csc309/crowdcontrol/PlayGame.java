@@ -68,16 +68,16 @@ public class PlayGame extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update() {
         if (frameCount == 50) {
-            objects.add(new Arrow(getContext(), 0, 5, screenWidth, screenHeight));
+            objects.add(new Arrow(getContext(), Arrow.DIRECTION.LEFT, 5, screenWidth, screenHeight));
         }
         if (frameCount == 100) {
-            objects.add(new Arrow(getContext(), 2, 10, screenWidth, screenHeight));
-            objects.add(new Arrow(getContext(), 1, 10, screenWidth, screenHeight));
-            objects.add(new Arrow(getContext(), 3, 10, screenWidth, screenHeight));
+            objects.add(new Arrow(getContext(), Arrow.DIRECTION.DOWN, 10, screenWidth, screenHeight));
+            objects.add(new Arrow(getContext(), Arrow.DIRECTION.UP, 10, screenWidth, screenHeight));
+            objects.add(new Arrow(getContext(), Arrow.DIRECTION.RIGHT, 10, screenWidth, screenHeight));
         }
 
         for (GameObject o : objects) {
-            o.update();
+            o.update(0.0f);
 
             if (o.shouldDelete()) {
                 objects.remove(o);

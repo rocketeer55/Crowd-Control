@@ -16,24 +16,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".SettingsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SHOW_SETTINGS" />
             </intent-filter>
         </activity>
-
         <activity android:name=".AboutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SHOW_ABOUT" />
             </intent-filter>
         </activity>
-
         <activity android:name=".PlayGameActivity">
             <intent-filter>
                 <action android:name="android.intent.action.PLAY_GAME" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".PlayLevelActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_play_level"
+            android:theme="@style/FullscreenTheme" />
+        <activity android:name=".Debug"></activity>
     </application>
 
 </manifest>

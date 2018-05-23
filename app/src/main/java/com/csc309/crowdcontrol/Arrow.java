@@ -6,13 +6,28 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 
-public class Arrow implements GameObject {
+public class Arrow extends GameObject {
+
+    public enum DIRECTION
+    {
+        LEFT, RIGHT, UP, DOWN
+    }
+
     private int x, y, velocity, screenWidth, screenHeight;
-    int mode;
+    DIRECTION mode;
     private Bitmap image;
     private boolean shouldDelete;
 
-    public Arrow(Context current, int mode, int velocity, int screenWidth, int screenHeight) {
+    //USED TO TRACK SCREEN POSITION
+    private float songPosStart;
+    private float songPosTarget;
+    private boolean bradArrow = false;
+    public float currentSongPos;
+
+    int ARROW_STARTING_Y; //Where arrows are spawned
+    private float ARROW_TARGET_Y; //Where arrows should end up
+
+    public Arrow(Context current, DIRECTION mode, int velocity, int screenWidth, int screenHeight) {
         y = 0;
         this.velocity = velocity;
         this.screenWidth = screenWidth;
@@ -23,17 +38,65 @@ public class Arrow implements GameObject {
         bmp = Bitmap.createScaledBitmap(bmp, screenWidth/6, screenWidth/6, false);
 
 
-        if (mode == 0) {
+        if (mode == DIRECTION.LEFT) {
             // Left Arrow
             image = rotateBitmap(bmp, 270);
             x = screenWidth/15; // left gap
         }
-        else if (mode == 1) {
+        else if (mode == DIRECTION.UP) {
             // Up Arrow
             image = bmp;
             x = 2 * screenWidth/15 + image.getWidth(); // two gaps + 1 width
         }
-        else if (mode == 2) {
+        else if (mode == DIRECTION.DOWN) {
+            // Down Arrow
+            image = rotateBitmap(bmp, 180);
+            x = 3 * screenWidth/15 + 2 * image.getWidth(); // three gaps + 2 widths
+        }
+        else {
+            // Right Arrow
+            image = rotateBitmap(bmp, 90);
+            x = 4 * screenWidth/15 + 3 * image.getWidth(); // four gaps + 3 widths
+        }
+    }
+
+
+
+    //BRAD IS RESPONSIBLE FOR THIS AND WHATEVER CONSEQUENCES ARISE FROM IT
+    public Arrow(Context current, DIRECTION mode, float songPosStart, float songPosTarget,
+                 int screenWidth, int screenHeight)
+    {
+        this.type = "BradArrow";
+        ARROW_STARTING_Y = -700;
+        y = ARROW_STARTING_Y;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+        this.mode = mode;
+
+        //Sencer... take a look at this super wack math. Maybe there's a better way to do this
+        this.ARROW_TARGET_Y = (((5 * screenHeight / 6) - (4 * screenHeight / 6)) / 3)
+                + (4 * screenHeight / 6);
+
+        this.songPosStart = songPosStart;
+        this.songPosTarget = songPosTarget;
+
+        bradArrow = true;
+
+        Bitmap bmp = BitmapFactory.decodeResource(current.getResources(), R.drawable.uparrowbluenormal);
+        bmp = Bitmap.createScaledBitmap(bmp, screenWidth/6, screenWidth/6, false);
+
+
+        if (mode == DIRECTION.LEFT) {
+            // Left Arrow
+            image = rotateBitmap(bmp, 270);
+            x = screenWidth/15; // left gap
+        }
+        else if (mode == DIRECTION.UP) {
+            // Up Arrow
+            image = bmp;
+            x = 2 * screenWidth/15 + image.getWidth(); // two gaps + 1 width
+        }
+        else if (mode == DIRECTION.DOWN) {
             // Down Arrow
             image = rotateBitmap(bmp, 180);
             x = 3 * screenWidth/15 + 2 * image.getWidth(); // three gaps + 2 widths
@@ -58,10 +121,23 @@ public class Arrow implements GameObject {
         return shouldDelete;
     }
 
-    public void update() {
-        y += velocity;
+    public void update(float songPosition) {
 
-        if (y > screenHeight) {shouldDelete = true;}
+        this.currentSongPos = songPosition;
+
+        //This if statement can be removed. It's in place so I don't break Spencer's PlayGame
+        if(bradArrow)
+        {
+            float temp = (songPosTarget - currentSongPos)/(songPosTarget - songPosStart);
+            y = ((int)((1-temp) * (ARROW_TARGET_Y - (ARROW_STARTING_Y)))) + (ARROW_STARTING_Y);
+        }
+
+        else
+        {
+            y += velocity;
+        }
+
+        if (y > screenHeight || currentSongPos > songPosTarget) {shouldDelete = true;}
     }
 
     public void draw(Canvas canvas) {

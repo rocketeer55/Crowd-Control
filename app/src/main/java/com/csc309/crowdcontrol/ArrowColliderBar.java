@@ -8,7 +8,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 
-public class ArrowColliderBar implements GameObject {
+public class ArrowColliderBar extends GameObject {
     private int screenWidth, screenHeight;
     private Paint paint;
     private Context context;
@@ -40,7 +40,7 @@ public class ArrowColliderBar implements GameObject {
 
     public boolean shouldDelete() {return false;}
 
-    public void update() {
+    public void update(float songPos) {
 
     }
 
