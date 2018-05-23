@@ -93,9 +93,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         //System.out.println("UPDATING PLAYLEVEL");
         for (GameObject o : objects) {
             if(o.type == "BradArrow")
-            {
 
-            }
             o.update(songPos);
 
             if (o.shouldDelete()) {
