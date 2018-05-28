@@ -92,14 +92,8 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     {
         //System.out.println("UPDATING PLAYLEVEL");
         for (GameObject o : objects) {
-            if(o.type == "BradArrow")
 
             o.update(songPos);
-
-            if (o.shouldDelete()) {
-                objects.remove(o);
-                System.out.println("Removed!");
-            }
         }
     }
 
@@ -112,7 +106,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
             canvas.drawPaint(paint);
 
             for (GameObject o : objects) {
-                o.draw(canvas);
+                if (!o.shouldDelete()) {o.draw(canvas);};
             }
         }
     }
@@ -123,23 +117,4 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         objects.add(new Arrow(getContext(), dir, songPosStart, songPosTarget,
                 screenWidth, screenHeight));
     }
-
-    public void drawSomesShit(Canvas canvas)
-    {
-        if (canvas != null)
-        {
-            Paint paint = new Paint();
-            paint.setColor(Color.WHITE);
-            canvas.drawPaint(paint);
-
-            paint.setColor(Color.BLACK);
-            paint.setTextSize(50);
-            paint.setTextAlign(Paint.Align.CENTER);
-            int xPos = (canvas.getWidth() / 2);
-            int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
-            canvas.drawText(Float.toString(songPos), xPos, yPos, paint);
-            canvas.drawText(Integer.toString(currentBeat), xPos, yPos + 100, paint);
-            canvas.drawText(currentSyllable, xPos, yPos+200, paint);
-        }
-    }
-};
+}

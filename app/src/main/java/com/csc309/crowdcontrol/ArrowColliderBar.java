@@ -48,12 +48,12 @@ public class ArrowColliderBar extends GameObject {
         if (canvas != null) {
             paint.setColor(Color.GRAY);
             paint.setStyle(Paint.Style.FILL);
-            canvas.drawRect(0, 4 * screenHeight / 6, screenWidth - 1, 5 * screenHeight / 6, paint);
+            canvas.drawRect(0, 7 * screenHeight / 12, screenWidth - 1, 9 * screenHeight / 12, paint);
 
-            canvas.drawBitmap(left, screenWidth/15, 17 * screenHeight / 24, null);
-            canvas.drawBitmap(up, 2 * screenWidth/15 + left.getWidth(), 17 * screenHeight / 24, null);
-            canvas.drawBitmap(down, 3 * screenWidth/15 + left.getWidth() + up.getWidth(), 17 * screenHeight / 24, null);
-            canvas.drawBitmap(right, 4 * screenWidth/15 + left.getWidth() + up.getWidth() + down.getWidth(), 17 * screenHeight / 24, null);
+            canvas.drawBitmap(left, screenWidth/15, 7 * screenHeight / 12 + screenHeight / 24, null);
+            canvas.drawBitmap(up, 2 * screenWidth/15 + left.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
+            canvas.drawBitmap(down, 3 * screenWidth/15 + left.getWidth() + up.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
+            canvas.drawBitmap(right, 4 * screenWidth/15 + left.getWidth() + up.getWidth() + down.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
         }
     }
 }
