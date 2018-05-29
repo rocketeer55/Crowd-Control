@@ -5,7 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.provider.MediaStore;
 import android.view.Display;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
@@ -29,8 +32,11 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     private int screenHeight;
     private int frameCount = 0;
     private ArrayList<GameObject> objects;
-
     Paint paint = new Paint();
+
+    //Controls stuff
+    private GestureDetector mGestureDetector;
+    private CustomGestureDetector customGestureDetector;
 
     public PlayLevel(Context context) throws FileNotFoundException
     {
@@ -54,10 +60,20 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         objects = new ArrayList<>();
 
         objects.add(new ArrowColliderBar(getContext(), screenWidth, screenHeight));
+        objects.add(new DJControllerBar(getContext(), screenWidth, screenHeight));
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) 
+    public boolean onTouchEvent(MotionEvent event) {
+        if(mGestureDetector.onTouchEvent(event)) {
+            return true;
+        }
+
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
     {
     }
 
@@ -69,6 +85,14 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
         audioThread.setRunning(true);
         audioThread.start();
+
+        // Create an object of our Custom Gesture Detector Class
+        customGestureDetector = new CustomGestureDetector();
+
+        customGestureDetector.screenWidth = screenWidth;
+        customGestureDetector.screenHeight = screenHeight;
+        // Create a GestureDetector
+        mGestureDetector = new GestureDetector(appContext, customGestureDetector);
     }
 
     @Override
@@ -94,6 +118,31 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         for (GameObject o : objects) {
 
             o.update(songPos);
+        }
+
+        if (customGestureDetector.left) {
+            // there was a left swipe last frame - DO SOMETHING
+            System.out.println("left");
+            // set it back to false after handling the swipe
+            customGestureDetector.left = false;
+        }
+        if (customGestureDetector.right) {
+            // there was a right swipe last frame - DO SOMETHING
+            System.out.println("right");
+            // set it back to false after handling the swipe
+            customGestureDetector.right = false;
+        }
+        if (customGestureDetector.up) {
+            // there was an up swipe last frame - DO SOMETHING
+            System.out.println("up");
+            // set it back to false after handling the swipe
+            customGestureDetector.up = false;
+        }
+        if (customGestureDetector.down) {
+            // there was a down swipe last frame - DO SOMETHING
+            System.out.println("down");
+            // set it back to false after handling the swipe
+            customGestureDetector.down = false;
         }
     }
 

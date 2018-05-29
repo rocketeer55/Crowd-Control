@@ -11,7 +11,6 @@ import android.graphics.Paint;
 public class ArrowColliderBar extends GameObject {
     private int screenWidth, screenHeight;
     private Paint paint;
-    private Context context;
     Bitmap left, up, down, right;
 
     public ArrowColliderBar(Context context, int screenWidth, int screenHeight) {
@@ -45,15 +44,15 @@ public class ArrowColliderBar extends GameObject {
     }
 
     public void draw(Canvas canvas) {
-        if (canvas != null) {
-            paint.setColor(Color.GRAY);
-            paint.setStyle(Paint.Style.FILL);
-            canvas.drawRect(0, 7 * screenHeight / 12, screenWidth - 1, 9 * screenHeight / 12, paint);
+        if (canvas == null) {return;}
 
-            canvas.drawBitmap(left, screenWidth/15, 7 * screenHeight / 12 + screenHeight / 24, null);
-            canvas.drawBitmap(up, 2 * screenWidth/15 + left.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
-            canvas.drawBitmap(down, 3 * screenWidth/15 + left.getWidth() + up.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
-            canvas.drawBitmap(right, 4 * screenWidth/15 + left.getWidth() + up.getWidth() + down.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
-        }
+        paint.setColor(Color.GRAY);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawRect(0, 7 * screenHeight / 12, screenWidth - 1, 9 * screenHeight / 12, paint);
+
+        canvas.drawBitmap(left, screenWidth/15, 7 * screenHeight / 12 + screenHeight / 24, null);
+        canvas.drawBitmap(up, 2 * screenWidth/15 + left.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
+        canvas.drawBitmap(down, 3 * screenWidth/15 + left.getWidth() + up.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
+        canvas.drawBitmap(right, 4 * screenWidth/15 + left.getWidth() + up.getWidth() + down.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
     }
 }

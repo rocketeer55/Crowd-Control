@@ -119,10 +119,9 @@ public class PlayLevelActivity extends AppCompatActivity {
         }
         catch (FileNotFoundException e)
         {
+            // Relatable - Spencer
             System.out.println("All is Lost");
         }
-
-        //setContentView(R.layout.activity_play_level);
     }
 
     @Override
