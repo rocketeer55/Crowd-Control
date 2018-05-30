@@ -112,6 +112,8 @@ public class PlayLevelActivity extends AppCompatActivity {
         // while interacting with the UI.
         //findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
+
+        //Spawns an instance of PlayLevel
         try
         {
             playLevel = new PlayLevel(this);
@@ -122,7 +124,6 @@ public class PlayLevelActivity extends AppCompatActivity {
             System.out.println("All is Lost");
         }
 
-        //setContentView(R.layout.activity_play_level);
     }
 
     @Override

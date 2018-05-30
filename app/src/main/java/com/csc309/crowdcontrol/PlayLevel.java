@@ -17,11 +17,12 @@ import java.util.ArrayList;
 public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 {
     //Brad stuff
-    private PlayLevelThread thread;
-    private MusicThread audioThread;
-    public int currentBeat;
-    public String currentSyllable;
-    public float songPos;
+    private PlayLevelThread thread; //Thread that controls PlayLevel.update()
+    private MusicThread audioThread; //Thread that plays music and runs the Sequencer
+    public int currentBeat; //Used for testing/debug.
+    public String currentSyllable; //Used for testing/debug.
+    public float songPos; //Current position of song playing. Used to control EVERY GAMEOBJECT.
+
     public Context appContext;
 
     //Graphics Stuff
@@ -40,6 +41,8 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
         getHolder().addCallback(this);
         thread = new PlayLevelThread(getHolder(), this);
+
+        //This line will be updated to allow for different song selections.
         audioThread = new MusicThread(R.raw.shelterwithprep, new BeatMap(R.raw.shelterbeatmap, context),this, context);
         setFocusable(true);
 
@@ -61,6 +64,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     {
     }
 
+    //Starts the MusicThread and PlayLevelThread
     @Override
     public void surfaceCreated(SurfaceHolder holder) 
     {
@@ -71,6 +75,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         audioThread.start();
     }
 
+    //Kills the MusicThread and PlayLevelThread. Stops music.
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) 
     {
@@ -88,12 +93,10 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
+    //Updates the positional information of every GameObject
     public void update() 
     {
-        //System.out.println("UPDATING PLAYLEVEL");
         for (GameObject o : objects) {
-            if(o.type == "BradArrow")
-
             o.update(songPos);
 
             if (o.shouldDelete()) {
@@ -103,6 +106,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
+    //Draws every GameObject
     @Override
     public void draw(Canvas canvas) 
     {
@@ -117,29 +121,11 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
+    //Called by Sequencer to add arrows to the screen
     public void spawnArrow(Arrow.DIRECTION dir, float songPosStart, float songPosTarget)
     {
-        //System.out.println("PLAYLEVEL: SPAWNING ARROW");
         objects.add(new Arrow(getContext(), dir, songPosStart, songPosTarget,
                 screenWidth, screenHeight));
     }
 
-    public void drawSomesShit(Canvas canvas)
-    {
-        if (canvas != null)
-        {
-            Paint paint = new Paint();
-            paint.setColor(Color.WHITE);
-            canvas.drawPaint(paint);
-
-            paint.setColor(Color.BLACK);
-            paint.setTextSize(50);
-            paint.setTextAlign(Paint.Align.CENTER);
-            int xPos = (canvas.getWidth() / 2);
-            int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
-            canvas.drawText(Float.toString(songPos), xPos, yPos, paint);
-            canvas.drawText(Integer.toString(currentBeat), xPos, yPos + 100, paint);
-            canvas.drawText(currentSyllable, xPos, yPos+200, paint);
-        }
-    }
 };
