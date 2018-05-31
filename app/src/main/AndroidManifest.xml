@@ -26,11 +26,6 @@
                 <action android:name="android.intent.action.SHOW_ABOUT" />
             </intent-filter>
         </activity>
-        <activity android:name=".PlayGameActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.PLAY_GAME" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".PlayLevelActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

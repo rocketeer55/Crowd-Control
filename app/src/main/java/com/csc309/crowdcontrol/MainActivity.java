@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void playGame(View view) {
-        Intent intent = new Intent(this, PlayGameActivity.class);
+        Intent intent = new Intent(this, PlayLevelActivity.class);
         startActivity(intent);
     }
 
@@ -25,14 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void showAbout(View view) {
         Intent intent = new Intent(this, AboutActivity.class);
-        startActivity(intent);
-    }
-
-
-    //Brads'S DANK ASS test CODE.
-    public void showLevel(View view)
-    {
-        Intent intent = new Intent(this, PlayLevelActivity.class);
         startActivity(intent);
     }
 

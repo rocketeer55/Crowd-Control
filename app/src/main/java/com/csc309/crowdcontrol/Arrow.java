@@ -66,7 +66,6 @@ public class Arrow extends GameObject {
     public Arrow(Context current, DIRECTION mode, float songPosStart, float songPosTarget,
                  int screenWidth, int screenHeight)
     {
-        this.type = "BradArrow";
         ARROW_STARTING_Y = -700;
         y = ARROW_STARTING_Y;
         this.screenWidth = screenWidth;
@@ -74,8 +73,7 @@ public class Arrow extends GameObject {
         this.mode = mode;
 
         //Sencer... take a look at this super wack math. Maybe there's a better way to do this
-        this.ARROW_TARGET_Y = (((5 * screenHeight / 6) - (4 * screenHeight / 6)) / 3)
-                + (4 * screenHeight / 6);
+        this.ARROW_TARGET_Y = 7 * screenHeight / 12 + screenHeight / 24;
 
         this.songPosStart = songPosStart;
         this.songPosTarget = songPosTarget;
@@ -125,17 +123,9 @@ public class Arrow extends GameObject {
 
         this.currentSongPos = songPosition;
 
-        //This if statement can be removed. It's in place so I don't break Spencer's PlayGame
-        if(bradArrow)
-        {
-            float temp = (songPosTarget - currentSongPos)/(songPosTarget - songPosStart);
-            y = ((int)((1-temp) * (ARROW_TARGET_Y - (ARROW_STARTING_Y)))) + (ARROW_STARTING_Y);
-        }
 
-        else
-        {
-            y += velocity;
-        }
+        float temp = (songPosTarget - currentSongPos)/(songPosTarget - songPosStart);
+        y = ((int)((1-temp) * (ARROW_TARGET_Y - (ARROW_STARTING_Y)))) + (ARROW_STARTING_Y);
 
         if (y > screenHeight || currentSongPos > songPosTarget) {shouldDelete = true;}
     }
