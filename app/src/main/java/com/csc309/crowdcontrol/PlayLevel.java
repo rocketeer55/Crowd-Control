@@ -121,10 +121,6 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     public void update() 
     {
         for (GameObject o : objects) {
-<<<<<<< HEAD
-=======
-
->>>>>>> master
             o.update(songPos);
         }
 
@@ -175,9 +171,4 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         objects.add(new Arrow(getContext(), dir, songPosStart, songPosTarget,
                 screenWidth, screenHeight));
     }
-<<<<<<< HEAD
-
-};
-=======
 }
->>>>>>> master

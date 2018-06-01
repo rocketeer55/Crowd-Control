@@ -29,8 +29,13 @@ public class Debug extends AppCompatActivity {
 
         catch(FileNotFoundException e)
         {
-            System.out.println("Can't find the fucking file");
+            System.out.println("FILE NOT FOUND");
         }
 
+    }
+
+    public void performMIDIReadTest(View view)
+    {
+        MIDIReader.readMidi(getApplicationContext(), R.raw.sheltermiditest);
     }
 }

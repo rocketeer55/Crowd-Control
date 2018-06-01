@@ -124,10 +124,6 @@ public class PlayLevelActivity extends AppCompatActivity {
             // Relatable - Spencer
             System.out.println("All is Lost");
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> master
     }
 
     @Override
