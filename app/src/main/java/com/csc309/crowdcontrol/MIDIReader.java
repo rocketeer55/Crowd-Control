@@ -46,19 +46,30 @@ public class MIDIReader
             float temp = val;
             while(temp > 100.0)
             {
-                measureVal += 100.0;
+                //measureVal += 100.0;
                 measure++;
                 temp -= 100;
             }
+            measureVal += temp;
+
+            if(measureVal >= 97.0f)
+            {
+                measure++;
+                float temp2 = (measureVal - 100.0f);
+                measureVal = 0.0f + temp2;
+            }
         }
 
-        measureVal += val;
-
-        if(measureVal >= 97.0f)
+        else
         {
-            measure++;
-            float temp = (measureVal - 100.0f);
-            measureVal = 0.0f + temp;
+            measureVal += val;
+
+            if(measureVal >= 97.0f)
+            {
+                measure++;
+                float temp = (measureVal - 100.0f);
+                measureVal = 0.0f + temp;
+            }
         }
     }
 
@@ -116,7 +127,20 @@ public class MIDIReader
             case "d9": returnVal = BeatMap.NOTE_LENGTH.HALF_TIE_SIXTEENTH;
                         incrementMeasure(56.25f);
                 break;
-            default: returnVal = BeatMap.NOTE_LENGTH.NOTE_OFF;
+            case "f4": returnVal = BeatMap.NOTE_LENGTH.DOTTED_WHOLE_TIE_EIGHTH;
+                        incrementMeasure(162.5f);
+                break;
+            case "b3": returnVal = BeatMap.NOTE_LENGTH.WHOLE_TIE_EIGHTH;
+                        incrementMeasure(112.5f);
+                break;
+            case "d2": returnVal = BeatMap.NOTE_LENGTH.DOTTED_HALF_TIE_EIGHTH;
+                        incrementMeasure(87.5f);
+                break;
+            case "f1": returnVal = BeatMap.NOTE_LENGTH.HALF_TIE_EIGHTH;
+                        incrementMeasure(62.5f);
+                break;
+            default: returnVal = BeatMap.NOTE_LENGTH.UNKNOWN_LENGTH;
+                System.out.println("MEASURE: " + measure + " UNKNOWN LENGTH OF: " + hexVal);
                 break;
         }
 
@@ -272,6 +296,7 @@ public class MIDIReader
 
             boolean firstPass = true;
             int delta_t;
+            int count = 0;
 
             while(tempVal != -1)
             {
@@ -335,9 +360,10 @@ public class MIDIReader
                     readStream.read();
                     MIDINode tempNode = dequeue();
 
-                    System.out.println(measure + " " +
-                            hexToDir(tempNode.key) + " " + hexToNoteLength(
-                            Integer.toHexString(elapsedTime - tempNode.timeAdded)));
+                    System.out.println(measure + " " + hexToNoteLength(
+                            Integer.toHexString(elapsedTime - tempNode.timeAdded))
+                             + " " + hexToDir(tempNode.key) );
+                    count++;
                    /* System.out.println("NODE DEQUEUED: SB: " + tempNode.statusByte
                             + " KEY: " + hexToDir(tempNode.key) + " VEL: " + tempNode.vel +
                             " DT: " + hexToNoteLength(
@@ -345,6 +371,7 @@ public class MIDIReader
                 }
             }
             System.out.println();
+            System.out.println("READ " + count + " NOTES.");
         }
         catch (IOException e)
         {

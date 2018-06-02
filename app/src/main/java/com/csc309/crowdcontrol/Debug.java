@@ -24,7 +24,7 @@ public class Debug extends AppCompatActivity {
     {
         try
         {
-            BeatMap beatMap = new BeatMap(R.raw.shelterbeatmap, getApplicationContext());
+            BeatMap beatMap = new BeatMap(R.raw.thethrillbeatmap, getApplicationContext());
         }
 
         catch(FileNotFoundException e)
@@ -36,6 +36,6 @@ public class Debug extends AppCompatActivity {
 
     public void performMIDIReadTest(View view)
     {
-        MIDIReader.readMidi(getApplicationContext(), R.raw.sheltermiditest);
+        MIDIReader.readMidi(getApplicationContext(), R.raw.thethrillmidi);
     }
 }

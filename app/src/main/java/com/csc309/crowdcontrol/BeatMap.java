@@ -15,9 +15,11 @@ public class BeatMap
     {
         WHOLE, HALF, QUARTER, EIGHTH, SIXTEENTH,
         DOTTED_WHOLE, DOTTED_HALF, DOTTED_QUARTER, DOTTED_EIGHTH, DOTTED_SIXTEENTH,
-        QUARTER_TIE_SIXTEENTH, QUARTER_TIE_DOTTED_EIGHTH, HALF_TIE_SIXTEENTH,
+        QUARTER_TIE_SIXTEENTH, QUARTER_TIE_DOTTED_EIGHTH,
+        HALF_TIE_SIXTEENTH, DOTTED_WHOLE_TIE_EIGHTH, WHOLE_TIE_EIGHTH, DOTTED_HALF_TIE_EIGHTH,
+        HALF_TIE_EIGHTH,
         QUARTER_TRIPLET, EIGHTH_TRIPLET, SIXTEENTH_TRIPLET,
-        NOTE_OFF
+        NOTE_OFF, UNKNOWN_LENGTH
     }
 
     private static class Node
@@ -96,6 +98,14 @@ public class BeatMap
                 break;
             case "HALF_TIE_SIXTEENTH": returnVal = NOTE_LENGTH.HALF_TIE_SIXTEENTH;
                 break;
+            case "DOTTED_WHOLE_TIE_EIGHTH": returnVal = NOTE_LENGTH.DOTTED_WHOLE_TIE_EIGHTH;
+                break;
+            case "WHOLE_TIE_EIGHTH": returnVal = NOTE_LENGTH.WHOLE_TIE_EIGHTH;
+                break;
+            case "DOTTED_HALF_TIE_EIGHTH": returnVal = NOTE_LENGTH.DOTTED_HALF_TIE_EIGHTH;
+                break;
+            case "HALF_TIE_EIGHTH": returnVal = NOTE_LENGTH.HALF_TIE_EIGHTH;
+                break;
             case "QUARTER_TRIPLET": returnVal = NOTE_LENGTH.DOTTED_SIXTEENTH;
                 break;
             case "EIGHTH_TRIPLET": returnVal = NOTE_LENGTH.EIGHTH_TRIPLET;
@@ -145,23 +155,35 @@ public class BeatMap
 
         //System.out.println("Offset: " + offset +
         // " BeatsPerMeasure: " + beatsPerMeasure + " BPM: " + bpm);
-
+        int count = 0;
         while(scanner.hasNext())
         {
+            count++;
             line = scanner.nextLine();
-            System.out.println(line);
+            System.out.println(count + " READING LINE: " + line);
             Scanner lineScanner = new Scanner(line);
 
-            int tempBarNo = lineScanner.nextInt();
-            NOTE_LENGTH tempNoteLength = stringToNoteLength(lineScanner.next());
-            Arrow.DIRECTION tempArrowDir = stringToArrowDir(lineScanner.next());
+            if(lineScanner.hasNextInt())
+            {
+                int tempBarNo = lineScanner.nextInt();
+                NOTE_LENGTH tempNoteLength = stringToNoteLength(lineScanner.next());
+                Arrow.DIRECTION tempArrowDir = stringToArrowDir(lineScanner.next());
 
-            Note tempNote = new Note(tempBarNo, tempNoteLength, tempArrowDir);
-            Node tempNode = new Node(tempNote);
+                Note tempNote = new Note(tempBarNo, tempNoteLength, tempArrowDir);
+                Node tempNode = new Node(tempNote);
 
-            enqueue(tempNode);
+                enqueue(tempNode);
+            }
+
+            else
+            {
+                System.out.println("SKIPPING A LINE FOR SOME REASON");
+                count--;
+            }
+
+            lineScanner.close();
         }
-
+        System.out.println("ENQUEUED " + count + " NOTES.");
         //printQ();
     }
 
