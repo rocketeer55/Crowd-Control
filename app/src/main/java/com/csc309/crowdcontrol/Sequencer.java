@@ -107,6 +107,14 @@ public class Sequencer
                     break;
             case HALF_TIE_SIXTEENTH: returnVal = (2*quarterNote) + sixteenthNote;
                 break;
+            case DOTTED_WHOLE_TIE_EIGHTH: returnVal = (6*quarterNote) + eighthNote;
+                break;
+            case WHOLE_TIE_EIGHTH: returnVal = (4*quarterNote) + eighthNote;
+                break;
+            case DOTTED_HALF_TIE_EIGHTH: returnVal = (3*quarterNote) + eighthNote;
+                break;
+            case HALF_TIE_EIGHTH: returnVal = (2*quarterNote) + eighthNote;
+                break;
             case QUARTER_TRIPLET: returnVal = ((quarterNote * 2) / 3);
                 break;
             case EIGHTH_TRIPLET: returnVal = (quarterNote / 3);

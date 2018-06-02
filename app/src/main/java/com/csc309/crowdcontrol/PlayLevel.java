@@ -49,7 +49,8 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         thread = new PlayLevelThread(getHolder(), this);
 
         //This line will be updated to allow for different song selections.
-        audioThread = new MusicThread(R.raw.shelterwithprep, new BeatMap(R.raw.shelterbeatmap, context),this, context);
+        audioThread = new MusicThread(R.raw.thethrillwithprep,
+                new BeatMap(R.raw.thethrillbeatmap, context),this, context);
         setFocusable(true);
 
         //Some shit Brad don't wanna F|_|CK with

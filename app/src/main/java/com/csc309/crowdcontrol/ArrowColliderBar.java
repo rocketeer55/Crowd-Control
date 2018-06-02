@@ -51,8 +51,8 @@ public class ArrowColliderBar extends GameObject {
         canvas.drawRect(0, 7 * screenHeight / 12, screenWidth - 1, 9 * screenHeight / 12, paint);
 
         canvas.drawBitmap(left, screenWidth/15, 7 * screenHeight / 12 + screenHeight / 24, null);
-        canvas.drawBitmap(up, 2 * screenWidth/15 + left.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
-        canvas.drawBitmap(down, 3 * screenWidth/15 + left.getWidth() + up.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
-        canvas.drawBitmap(right, 4 * screenWidth/15 + left.getWidth() + up.getWidth() + down.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
+        canvas.drawBitmap(right, 2 * screenWidth/15 + left.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
+        canvas.drawBitmap(up, 3 * screenWidth/15 + left.getWidth() + up.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
+        canvas.drawBitmap(down, 4 * screenWidth/15 + left.getWidth() + up.getWidth() + down.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
     }
 }

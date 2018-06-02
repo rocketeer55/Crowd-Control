@@ -66,7 +66,7 @@ public class Arrow extends GameObject {
     public Arrow(Context current, DIRECTION mode, float songPosStart, float songPosTarget,
                  int screenWidth, int screenHeight)
     {
-        ARROW_STARTING_Y = -700;
+        ARROW_STARTING_Y = -1000;
         y = ARROW_STARTING_Y;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -92,17 +92,20 @@ public class Arrow extends GameObject {
         else if (mode == DIRECTION.UP) {
             // Up Arrow
             image = bmp;
-            x = 2 * screenWidth/15 + image.getWidth(); // two gaps + 1 width
+            x = 3 * screenWidth/15 + 2 * image.getWidth(); // three gaps + 2 widths
+            //x = 2 * screenWidth/15 + image.getWidth(); // two gaps + 1 width
         }
         else if (mode == DIRECTION.DOWN) {
             // Down Arrow
             image = rotateBitmap(bmp, 180);
-            x = 3 * screenWidth/15 + 2 * image.getWidth(); // three gaps + 2 widths
+            x = 4 * screenWidth/15 + 3 * image.getWidth(); // four gaps + 3 widths
+            //x = 3 * screenWidth/15 + 2 * image.getWidth(); // three gaps + 2 widths
         }
         else {
             // Right Arrow
             image = rotateBitmap(bmp, 90);
-            x = 4 * screenWidth/15 + 3 * image.getWidth(); // four gaps + 3 widths
+            x = 2 * screenWidth/15 + image.getWidth(); // two gaps + 1 width
+            //x = 4 * screenWidth/15 + 3 * image.getWidth(); // four gaps + 3 widths
         }
     }
 
