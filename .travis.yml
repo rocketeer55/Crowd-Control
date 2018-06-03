@@ -36,5 +36,5 @@ before_script:
 script:
   - ./gradlew connectedCheck
 
-  before_install:
+before_install:
   - yes | sdkmanager "platforms;android-27"
