@@ -34,10 +34,7 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - ./gradlew sonarqube \
-  -Dsonar.organization=more-mozzarella-inc \
-  -Dsonar.host.url=https://sonarcloud.io \
-  -Dsonar.login=6f8734603c792f22114c1611a3297a1baaa76e94
+  - ./gradlew sonarqube -Dsonar.organization=more-mozzarella-inc -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=6f8734603c792f22114c1611a3297a1baaa76e94
 
 before_install:
   - yes | sdkmanager "platforms;android-27"
