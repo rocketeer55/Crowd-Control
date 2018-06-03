@@ -8,7 +8,7 @@ public class Sequencer
     public float eighthNote;
     public float sixteenthNote;
     public float lengthOfMeasure;
-    public float offset = 0.2f *1000;
+    public float offset;
     public int beatNumber = 0;
     public int barNumber = 0;
     public float lastBeat;
@@ -31,6 +31,7 @@ public class Sequencer
         this.beatMap = beatMap;
         quarterNotesPerBar = beatMap.beatsPerMeasure;
         bpm = beatMap.bpm;
+        offset = beatMap.offset * 1000;
     }
 
     public void Start()
