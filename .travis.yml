@@ -1,12 +1,40 @@
 language: android
-sudo: false
-install: true
+env:
+  global:
+    - COMPILE_SDK_VERSION=27 # Same as `compileSdkVersion` in build.gradle
+    - EMULATOR_API=22
+    - BUILD_TOOLS_VERSION=27.0.3 # Same as `buildToolsVersion` in build.gradle
+    - ABI=armeabi-v7a # ARM ABI v7a by default
+    - ADB_INSTALL_TIMEOUT=5 # minutes
 
-addons:
-  sonarcloud:
-    organization: "more-mozzarella-inc"
-    token:
-      secure: "6f8734603c792f22114c1611a3297a1baaa76e94"
+android:
+  components:
+    - tools # Update android-sdk (also called android-sdk-tools)
+    - platform-tools
+    - tools # Write the second time to update to thes newest as described in the document
+    - build-tools-${BUILD_TOOLS_VERSION} # For building
+    - android-${COMPILE_SDK_VERSION} # For building
+    - android-${EMULATOR_API} # For testing
+
+    - extra-android-m2repository # Support library
+
+    - sys-img-${ABI}-android-${EMULATOR_API} # Emulator image
+
+install:
+  - sdkmanager --list || true # Debug / Observation
+  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2" #&> /dev/null
+  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2" #&> /dev/null
+  - avdmanager --list || true  # Debug / Observation
+
+before_script:
+    #  - echo no | avdmanager create avd -n test -k android-${EMULATOR_API} -f --abi ${ABI} --tag "$TAG"
+  - echo no | android create avd --force -n test -t android-${EMULATOR_API} --abi ${ABI}
+  - emulator -avd test -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
 
 script:
-  - ./gradlew sonarqube
+  - ./gradlew sonarqube -Dsonar.organization=more-mozzarella-inc -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=6f8734603c792f22114c1611a3297a1baaa76e94
+
+before_install:
+  - yes | sdkmanager "platforms;android-27"
