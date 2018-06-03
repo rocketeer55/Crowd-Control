@@ -5,6 +5,8 @@ env:
   global:
     - ANDROID_TARGET=android-27
     - ANDROID_ABI=armeabi-v7a
+    - ANDROID_API_LEVEL=27
+    - EMULATOR_API_LEVEL=27
 android:
   components:
     - tools
@@ -14,3 +16,7 @@ android:
     - extra-google-m2repository
     - extra-android-m2repository
     - addon-google_apis-google-27
+  before_script:
+    - echo no | android create avd --force -n test -t "Google Inc.:Google APIs:"$EMULATOR_API_LEVEL --abi $ANDROID_ABI
+    - emulator -avd test -no-skin -no-audio -no-window &
+    - android-wait-for-emulator
