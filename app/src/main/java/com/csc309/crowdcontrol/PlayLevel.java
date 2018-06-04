@@ -112,6 +112,9 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
+
+    // update score here
+    // have score extend game object
     public void update() 
     {
         //System.out.println("UPDATING PLAYLEVEL");
