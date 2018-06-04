@@ -20,9 +20,8 @@ public class Arrow extends GameObject {
     private boolean shouldDequeue = false;
 
     //USED TO TRACK SCREEN POSITION
-    private float songPosStart;
     public float songPosTarget;
-    private boolean bradArrow = false;
+    private float songPosStart;
     public float currentSongPos;
 
     int ARROW_STARTING_Y; //Where arrows are spawned
@@ -63,25 +62,23 @@ public class Arrow extends GameObject {
         }
     }
 
-
+    int arrowStartingY; //Where arrows are spawned
+    private float arrowTargetY; //Where arrows should end up
 
     //BRAD IS RESPONSIBLE FOR THIS AND WHATEVER CONSEQUENCES ARISE FROM IT
     public Arrow(Context current, DIRECTION mode, float songPosStart, float songPosTarget,
                  int screenWidth, int screenHeight)
     {
-        ARROW_STARTING_Y = -1000;
-        y = ARROW_STARTING_Y;
-        this.screenWidth = screenWidth;
+        arrowStartingY = -1000;
+        y = arrowStartingY;
         this.screenHeight = screenHeight;
         this.mode = mode;
 
         //Sencer... take a look at this super wack math. Maybe there's a better way to do this
-        this.ARROW_TARGET_Y = 7 * screenHeight / 12 + screenHeight / 24;
+        this.arrowTargetY = 7 * screenHeight / 12 + screenHeight / 24;
 
         this.songPosStart = songPosStart;
         this.songPosTarget = songPosTarget;
-
-        bradArrow = true;
 
         Bitmap bmp = BitmapFactory.decodeResource(current.getResources(), R.drawable.uparrowbluenormal);
         bmp = Bitmap.createScaledBitmap(bmp, screenWidth/6, screenWidth/6, false);
@@ -117,8 +114,7 @@ public class Arrow extends GameObject {
         Matrix matrix = new Matrix();
         // Setup rotation degree
         matrix.postRotate(degree);
-        Bitmap bmp = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
-        return bmp;
+        return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
     }
 
     public boolean shouldDelete() {
@@ -132,7 +128,7 @@ public class Arrow extends GameObject {
         this.currentSongPos = songPosition;
 
         float temp = (songPosTarget - currentSongPos)/(songPosTarget - songPosStart);
-        y = ((int)((1-temp) * (ARROW_TARGET_Y - (ARROW_STARTING_Y)))) + (ARROW_STARTING_Y);
+        y = ((int)((1-temp) * (arrowTargetY - (arrowStartingY)))) + (arrowStartingY);
 
         if (y > screenHeight || currentSongPos > songPosTarget + 100)
         {
