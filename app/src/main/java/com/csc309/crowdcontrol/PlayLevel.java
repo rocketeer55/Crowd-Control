@@ -132,11 +132,12 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         for (Arrow arr : arrowList)
         {
             arr.update(songPos);
+        }
 
-            if (arr.shouldDequeue() == true && arr.wasDequeued == false)
-            {
-                removeArrow();
-            }
+        Arrow temp = arrowList.peek();
+        if (temp.shouldDequeue() == true && temp.wasDequeued == false)
+        {
+            removeArrow();
         }
 
         if (customGestureDetector.left) {
@@ -208,7 +209,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
             for (Arrow arr : arrowList)
             {
-                if(!arr.shouldDelete())
+                if(!arr.shouldDelete() || !arr.wasDequeued)
                 {
                     arr.draw(canvas);
                 }
