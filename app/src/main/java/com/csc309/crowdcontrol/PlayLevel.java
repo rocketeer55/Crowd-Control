@@ -135,9 +135,13 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
 
         Arrow temp = arrowList.peek();
-        if (temp.shouldDequeue() == true && temp.wasDequeued == false)
+
+        if(temp != null)
         {
-            removeArrow();
+            if (temp.shouldDequeue() == true && temp.wasDequeued == false)
+            {
+                removeArrow();
+            }
         }
 
         if (customGestureDetector.left) {
@@ -209,10 +213,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
             for (Arrow arr : arrowList)
             {
-                if(!arr.shouldDelete() || !arr.wasDequeued)
-                {
-                    arr.draw(canvas);
-                }
+                arr.draw(canvas);
             }
         }
     }
@@ -222,13 +223,11 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     {
         Arrow arr = new Arrow(getContext(), dir, songPosStart, songPosTarget,
                 screenWidth, screenHeight);
-        //objects.add(arr);
         arrowList.offer(arr);
     }
 
     public void removeArrow()
     {
-        //o.wasDequeued = true;
         Arrow arr = arrowList.poll();
         System.out.println("DEQUEUED");
         arr.wasDequeued = true;

@@ -132,8 +132,10 @@ public class Arrow extends GameObject {
 
         if (y > screenHeight || currentSongPos > songPosTarget + 100)
         {
+            System.out.println("MISSED NOTE");
             shouldDelete = true;
             shouldDequeue = true;
+            y = Integer.MAX_VALUE;
         }
     }
 
