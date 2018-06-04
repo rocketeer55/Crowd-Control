@@ -1,6 +1,65 @@
 package com.csc309.crowdcontrol;
 
-public abstract class UpdateScore extends GameObject{
-    public int score;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+
+
+
+import static com.csc309.crowdcontrol.PlayLevelThread.canvas;
+
+public class UpdateScore extends GameObject{
+
+    private int screenWidth, screenHeight;
+    private Paint paint;
+
+    public int score = 0;
+
+    // multipliers
+    int multipler = 1;
+
+
+    // score hits and points
+    int miss = 0;
+    int okay = 100;
+    int good = 250;
+    int excellent = 500;
+
+    public UpdateScore(Context context, int screenWidth, int screenHeight){
+
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+
+        paint = new Paint();
+    }
+
+    public void draw(Canvas canvas){
+        if (canvas == null) {return;}
+
+        paint.setColor(Color.BLUE);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawRect(0, 0, screenWidth - 1, 100, paint);
+
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(48f);
+        canvas.drawText("Score: " + score, 20,80,paint);
+
+
+        }
+
+    public void update(float songPos){
+       score += okay;
+    }
+
+    public boolean shouldDelete(){
+        return false;
+
+    }
+
+
 
 }

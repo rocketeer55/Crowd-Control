@@ -61,6 +61,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
         objects.add(new ArrowColliderBar(getContext(), screenWidth, screenHeight));
         objects.add(new DJControllerBar(getContext(), screenWidth, screenHeight));
+        objects.add(new UpdateScore(getContext(), screenWidth, screenHeight));
     }
 
     @Override
