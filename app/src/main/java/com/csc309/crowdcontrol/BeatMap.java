@@ -148,11 +148,8 @@ public class BeatMap
         bpm = scanner.nextFloat();
         scanner.nextLine();
 
-        // " BeatsPerMeasure: " + beatsPerMeasure + " BPM: " + bpm);
-        int count = 0;
         while(scanner.hasNext())
         {
-            count++;
             line = scanner.nextLine();
             Scanner lineScanner = new Scanner(line);
 
@@ -166,11 +163,6 @@ public class BeatMap
                 Node tempNode = new Node(tempNote);
 
                 enqueue(tempNode);
-            }
-
-            else
-            {
-                count--;
             }
 
             lineScanner.close();
