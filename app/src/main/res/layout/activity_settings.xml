@@ -5,57 +5,61 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
+    <LinearLayout
+        android:layout_width="400dp"
+        android:layout_height="646dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="3dp"
+        tools:layout_editor_absoluteY="5dp">
 
-    <TableLayout
-        android:layout_width="395dp"
-        android:layout_height="643dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
-
-        <TableRow
+        <TextView
+            android:id="@+id/editText2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textAlignment="center"
+            android:textSize="40sp" />
 
-        <TableRow
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="45dp"
+            android:text=" Volume"
+            android:textAlignment="viewStart"
+            android:textSize="24sp" />
 
-        <TableRow
+        <SeekBar
+            android:id="@+id/seekBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
 
-        <TableRow
+        <TextView
+            android:id="@+id/textView7"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </TableLayout>
+            android:layout_height="45dp"
+            android:text=" Touch Sensitivity"
+            android:textAlignment="viewStart"
+            android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Action Sounds"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="20sp"
-        tools:layout_editor_absoluteX="37dp"
-        tools:layout_editor_absoluteY="95dp" />
+        <SeekBar
+            android:id="@+id/seekBar2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/title4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Action Sounds"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="20sp"
-        tools:layout_editor_absoluteX="37dp"
-        tools:layout_editor_absoluteY="155dp" />
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:text=" Song Offset"
+            android:textAlignment="viewStart"
+            android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/title2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Background Music"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="20sp"
-        tools:layout_editor_absoluteX="37dp"
-        tools:layout_editor_absoluteY="41dp" />
+        <SeekBar
+            android:id="@+id/seekBar3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
 </android.support.constraint.ConstraintLayout>

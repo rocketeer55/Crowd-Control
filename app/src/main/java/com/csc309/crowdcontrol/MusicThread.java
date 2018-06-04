@@ -7,12 +7,9 @@ public class MusicThread extends Thread
 {
     private com.csc309.crowdcontrol.PlayLevel playLevel;
     private boolean running;
-    private int targetFPS = 60;
-    private double averageFPS;
 
-    private MediaPlayer musicPlayer;
-    public Context mainContext;
-    private Sequencer sequencer;
+    private MediaPlayer musicPlayer; //Plays the music
+    private Sequencer sequencer; //Reference to the parent instance of PlayLevel
 
     public MusicThread(int songID, BeatMap beatMap, PlayLevel playLevel, Context context) {
         super();
@@ -21,6 +18,7 @@ public class MusicThread extends Thread
         sequencer = new Sequencer(beatMap, playLevel);
     }
 
+    //Creates a MediaPlayer to play music
     public void createMusicPlayer(Context context, int songID)
     {
         this.musicPlayer = MediaPlayer.create(context, songID);
@@ -29,18 +27,21 @@ public class MusicThread extends Thread
     @Override
     public void run() {
 
+        //Might need to sleep() here for a second to give prep time.
         musicPlayer.start();
-        //sequencer = new Sequencer(4, 100);
         sequencer.Start();
 
         while (running)
         {
             playLevel.songPos = musicPlayer.getCurrentPosition();
             sequencer.Update(musicPlayer.getCurrentPosition());
+
+            //Used for testing/debug
             playLevel.currentBeat = sequencer.currentBeat;
             playLevel.currentSyllable = sequencer.currentSyllable;
         }
 
+        //Stops playing music when thread is killed. This is very important.
         musicPlayer.stop();
         musicPlayer.release();
     }

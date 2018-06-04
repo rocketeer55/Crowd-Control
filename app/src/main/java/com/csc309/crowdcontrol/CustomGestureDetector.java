@@ -2,7 +2,6 @@ package com.csc309.crowdcontrol;
 
 import android.view.GestureDetector;
 
-import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 
 public class CustomGestureDetector implements GestureDetector.OnGestureListener {
@@ -22,7 +21,7 @@ public class CustomGestureDetector implements GestureDetector.OnGestureListener 
 
     @Override
     public void onShowPress(MotionEvent e) {
-
+        // Not implemented
     }
 
     @Override
@@ -37,7 +36,7 @@ public class CustomGestureDetector implements GestureDetector.OnGestureListener 
 
     @Override
     public void onLongPress(MotionEvent e) {
-
+        // Not implemented
     }
 
     @Override
@@ -64,6 +63,6 @@ public class CustomGestureDetector implements GestureDetector.OnGestureListener 
 
         }
 
-        return true;
+        return false;
     }
 }

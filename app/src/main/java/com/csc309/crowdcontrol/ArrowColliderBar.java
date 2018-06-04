@@ -9,9 +9,13 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 
 public class ArrowColliderBar extends GameObject {
-    private int screenWidth, screenHeight;
+    private int screenWidth;
+    private int screenHeight;
     private Paint paint;
-    Bitmap left, up, down, right;
+    private Bitmap left;
+    private Bitmap right;
+    private Bitmap down;
+    private Bitmap up;
 
     public ArrowColliderBar(Context context, int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
@@ -33,14 +37,15 @@ public class ArrowColliderBar extends GameObject {
         Matrix matrix = new Matrix();
         // Setup rotation degree
         matrix.postRotate(degree);
-        Bitmap bmp = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
-        return bmp;
+        return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
     }
 
     public boolean shouldDelete() {return false;}
 
-    public void update(float songPos) {
+    public boolean shouldDequeue() {return false;}
 
+    public void update(float songPos) {
+        //ArrowColliderBar doesn't need to be updated.
     }
 
     public void draw(Canvas canvas) {
@@ -51,8 +56,8 @@ public class ArrowColliderBar extends GameObject {
         canvas.drawRect(0, 7 * screenHeight / 12, screenWidth - 1, 9 * screenHeight / 12, paint);
 
         canvas.drawBitmap(left, screenWidth/15, 7 * screenHeight / 12 + screenHeight / 24, null);
-        canvas.drawBitmap(up, 2 * screenWidth/15 + left.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
-        canvas.drawBitmap(down, 3 * screenWidth/15 + left.getWidth() + up.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
-        canvas.drawBitmap(right, 4 * screenWidth/15 + left.getWidth() + up.getWidth() + down.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
+        canvas.drawBitmap(right, 2 * screenWidth/15 + left.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
+        canvas.drawBitmap(up, 3 * screenWidth/15 + left.getWidth() + up.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
+        canvas.drawBitmap(down, 4 * screenWidth/15 + left.getWidth() + up.getWidth() + down.getWidth(), 7 * screenHeight / 12 + screenHeight / 24, null);
     }
 }

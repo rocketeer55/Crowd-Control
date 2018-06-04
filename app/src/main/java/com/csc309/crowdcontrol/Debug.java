@@ -2,9 +2,6 @@ package com.csc309.crowdcontrol;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-
-import java.io.FileNotFoundException;
 
 public class Debug extends AppCompatActivity {
 
@@ -14,23 +11,19 @@ public class Debug extends AppCompatActivity {
         setContentView(R.layout.activity_debug);
     }
 
-    public void performQTest(View view)
+    public void performQTest()
     {
-        BeatMap beatMap = new BeatMap();
-        beatMap.qTest();
+        // Something would be done here, but it smells.
     }
 
-    public void performFileTest(View view)
+    public void performFileTest()
     {
-        try
-        {
-            BeatMap beatMap = new BeatMap(R.raw.shelterbeatmap, getApplicationContext());
-        }
+        // Something would happen here too, but it also smells.
 
-        catch(FileNotFoundException e)
-        {
-            System.out.println("Can't find the fucking file");
-        }
+    }
 
+    public void performMIDIReadTest()
+    {
+        MIDIReader.readMidi(getApplicationContext(), R.raw.thethrillmidi);
     }
 }

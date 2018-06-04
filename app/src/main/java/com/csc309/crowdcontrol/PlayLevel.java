@@ -16,15 +16,18 @@ import android.view.WindowManager;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 {
     //Brad stuff
-    private PlayLevelThread thread;
-    private MusicThread audioThread;
-    public int currentBeat;
-    public String currentSyllable;
-    public float songPos;
+    private PlayLevelThread thread; //Thread that controls PlayLevel.update()
+    private MusicThread audioThread; //Thread that plays music and runs the Sequencer
+    public int currentBeat; //Used for testing/debug.
+    public String currentSyllable; //Used for testing/debug.
+    public float songPos; //Current position of song playing. Used to control EVERY GAMEOBJECT.
+
     public Context appContext;
 
     //Graphics Stuff
@@ -37,6 +40,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     //Controls stuff
     private GestureDetector mGestureDetector;
     private CustomGestureDetector customGestureDetector;
+    private LinkedList<Arrow> arrowList;
 
     public PlayLevel(Context context) throws FileNotFoundException
     {
@@ -46,7 +50,10 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
         getHolder().addCallback(this);
         thread = new PlayLevelThread(getHolder(), this);
-        audioThread = new MusicThread(R.raw.shelterwithprep, new BeatMap(R.raw.shelterbeatmap, context),this, context);
+
+        //This line will be updated to allow for different song selections.
+        audioThread = new MusicThread(R.raw.thethrillwithprep,
+                new BeatMap(R.raw.thethrillbeatmap, context),this, context);
         setFocusable(true);
 
         //Some shit Brad don't wanna F|_|CK with
@@ -58,6 +65,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         screenHeight = size.y;
 
         objects = new ArrayList<>();
+        arrowList = new LinkedList<>();
 
         objects.add(new ArrowColliderBar(getContext(), screenWidth, screenHeight));
         objects.add(new DJControllerBar(getContext(), screenWidth, screenHeight));
@@ -78,6 +86,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     {
     }
 
+    //Starts the MusicThread and PlayLevelThread
     @Override
     public void surfaceCreated(SurfaceHolder holder) 
     {
@@ -96,6 +105,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         mGestureDetector = new GestureDetector(appContext, customGestureDetector);
     }
 
+    //Kills the MusicThread and PlayLevelThread. Stops music.
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) 
     {
@@ -116,40 +126,83 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
     // update score here
     // have score extend game object
-    public void update() 
+    // Updates the positional information of every GameObject
+    public void update()
     {
-        //System.out.println("UPDATING PLAYLEVEL");
         for (GameObject o : objects) {
-
             o.update(songPos);
+        }
+
+        for (Arrow arr : arrowList)
+        {
+            arr.update(songPos);
+        }
+
+        Arrow temp = arrowList.peek();
+
+        if(temp != null)
+        {
+            if (temp.shouldDequeue() == true && temp.wasDequeued == false)
+            {
+                removeArrow();
+            }
         }
 
         if (customGestureDetector.left) {
             // there was a left swipe last frame - DO SOMETHING
             System.out.println("left");
+            Arrow arr = arrowList.peek();
+            if(songPos > (arr.songPosTarget - 100)
+                    && songPos < (arr.songPosTarget + 100 ) &&
+                    arr.mode == Arrow.DIRECTION.LEFT)
+            {
+                removeArrow();
+            }
             // set it back to false after handling the swipe
             customGestureDetector.left = false;
         }
         if (customGestureDetector.right) {
             // there was a right swipe last frame - DO SOMETHING
             System.out.println("right");
+            Arrow arr = arrowList.peek();
+            if(songPos > (arr.songPosTarget - 100)
+                    && songPos < (arr.songPosTarget + 100 ) &&
+                    arr.mode == Arrow.DIRECTION.RIGHT)
+            {
+                removeArrow();
+            }
             // set it back to false after handling the swipe
             customGestureDetector.right = false;
         }
         if (customGestureDetector.up) {
             // there was an up swipe last frame - DO SOMETHING
             System.out.println("up");
+            Arrow arr = arrowList.peek();
+            if(songPos > (arr.songPosTarget - 100)
+                    && songPos < (arr.songPosTarget + 100 ) &&
+                    arr.mode == Arrow.DIRECTION.UP)
+            {
+                removeArrow();
+            }
             // set it back to false after handling the swipe
             customGestureDetector.up = false;
         }
         if (customGestureDetector.down) {
             // there was a down swipe last frame - DO SOMETHING
             System.out.println("down");
+            Arrow arr = arrowList.peek();
+            if(songPos > (arr.songPosTarget - 100)
+                    && songPos < (arr.songPosTarget + 100 ) &&
+                    arr.mode == Arrow.DIRECTION.DOWN)
+            {
+                removeArrow();
+            }
             // set it back to false after handling the swipe
             customGestureDetector.down = false;
         }
     }
 
+    //Draws every GameObject
     @Override
     public void draw(Canvas canvas) 
     {
@@ -161,13 +214,26 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
             for (GameObject o : objects) {
                 if (!o.shouldDelete()) {o.draw(canvas);};
             }
+
+            for (Arrow arr : arrowList)
+            {
+                arr.draw(canvas);
+            }
         }
     }
 
+    //Called by Sequencer to add arrows to the screen
     public void spawnArrow(Arrow.DIRECTION dir, float songPosStart, float songPosTarget)
     {
-        //System.out.println("PLAYLEVEL: SPAWNING ARROW");
-        objects.add(new Arrow(getContext(), dir, songPosStart, songPosTarget,
-                screenWidth, screenHeight));
+        Arrow arr = new Arrow(getContext(), dir, songPosStart, songPosTarget,
+                screenWidth, screenHeight);
+        arrowList.offer(arr);
+    }
+
+    public void removeArrow()
+    {
+        Arrow arr = arrowList.poll();
+        System.out.println("DEQUEUED");
+        arr.wasDequeued = true;
     }
 }

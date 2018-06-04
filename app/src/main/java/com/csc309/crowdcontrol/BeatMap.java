@@ -2,21 +2,19 @@ package com.csc309.crowdcontrol;
 
 import java.io.*;
 import java.util.*;
-import android.app.Activity;
 import android.content.res.Resources;
 import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
-
 public class BeatMap
 {
     public enum NOTE_LENGTH
     {
         WHOLE, HALF, QUARTER, EIGHTH, SIXTEENTH,
         DOTTED_WHOLE, DOTTED_HALF, DOTTED_QUARTER, DOTTED_EIGHTH, DOTTED_SIXTEENTH,
-        QUARTER_TIE_SIXTEENTH, QUARTER_TIE_DOTTED_EIGHTH, HALF_TIE_SIXTEENTH,
-        QUARTER_TRIPLET, EIGHTH_TRIPLET, SIXTEENTH_TRIPLET
+        QUARTER_TIE_SIXTEENTH, QUARTER_TIE_DOTTED_EIGHTH,
+        HALF_TIE_SIXTEENTH, DOTTED_WHOLE_TIE_EIGHTH, WHOLE_TIE_EIGHTH, DOTTED_HALF_TIE_EIGHTH,
+        HALF_TIE_EIGHTH,
+        QUARTER_TRIPLET, EIGHTH_TRIPLET, SIXTEENTH_TRIPLET,
+        NOTE_OFF, UNKNOWN_LENGTH
     }
 
     private static class Node
@@ -48,7 +46,7 @@ public class BeatMap
     public Node head;
     public Node tail;
 
-    public BeatMap(int resID, Context context) throws FileNotFoundException
+    public BeatMap(int resID, Context context)
     {
         Resources resources = context.getResources();
         InputStream readStream = resources.openRawResource(resID);
@@ -60,7 +58,7 @@ public class BeatMap
 
     public BeatMap()
     {
-
+        // Default constructor
     }
 
     NOTE_LENGTH stringToNoteLength(String string)
@@ -94,6 +92,14 @@ public class BeatMap
             case "QUARTER_TIE_DOTTED_EIGHTH": returnVal = NOTE_LENGTH.QUARTER_TIE_DOTTED_EIGHTH;
                 break;
             case "HALF_TIE_SIXTEENTH": returnVal = NOTE_LENGTH.HALF_TIE_SIXTEENTH;
+                break;
+            case "DOTTED_WHOLE_TIE_EIGHTH": returnVal = NOTE_LENGTH.DOTTED_WHOLE_TIE_EIGHTH;
+                break;
+            case "WHOLE_TIE_EIGHTH": returnVal = NOTE_LENGTH.WHOLE_TIE_EIGHTH;
+                break;
+            case "DOTTED_HALF_TIE_EIGHTH": returnVal = NOTE_LENGTH.DOTTED_HALF_TIE_EIGHTH;
+                break;
+            case "HALF_TIE_EIGHTH": returnVal = NOTE_LENGTH.HALF_TIE_EIGHTH;
                 break;
             case "QUARTER_TRIPLET": returnVal = NOTE_LENGTH.DOTTED_SIXTEENTH;
                 break;
@@ -142,26 +148,25 @@ public class BeatMap
         bpm = scanner.nextFloat();
         scanner.nextLine();
 
-        //System.out.println("Offset: " + offset +
-        // " BeatsPerMeasure: " + beatsPerMeasure + " BPM: " + bpm);
-
         while(scanner.hasNext())
         {
             line = scanner.nextLine();
-            System.out.println(line);
             Scanner lineScanner = new Scanner(line);
 
-            int tempBarNo = lineScanner.nextInt();
-            NOTE_LENGTH tempNoteLength = stringToNoteLength(lineScanner.next());
-            Arrow.DIRECTION tempArrowDir = stringToArrowDir(lineScanner.next());
+            if(lineScanner.hasNextInt())
+            {
+                int tempBarNo = lineScanner.nextInt();
+                NOTE_LENGTH tempNoteLength = stringToNoteLength(lineScanner.next());
+                Arrow.DIRECTION tempArrowDir = stringToArrowDir(lineScanner.next());
 
-            Note tempNote = new Note(tempBarNo, tempNoteLength, tempArrowDir);
-            Node tempNode = new Node(tempNote);
+                Note tempNote = new Note(tempBarNo, tempNoteLength, tempArrowDir);
+                Node tempNode = new Node(tempNote);
 
-            enqueue(tempNode);
+                enqueue(tempNode);
+            }
+
+            lineScanner.close();
         }
-
-        //printQ();
     }
 
     public void enqueue(Node node)
@@ -184,11 +189,6 @@ public class BeatMap
         }
     }
 
-    public boolean isEmpty()
-    {
-        return (tail == null);
-    }
-
     public Note dequeue()
     {
         if(head == null)
@@ -206,52 +206,5 @@ public class BeatMap
         }
 
         return returnNode.note;
-    }
-
-    public Node dequeueNode()
-    {
-        Node returnNode = head;
-
-        head = head.next;
-
-        if(head == null)
-        {
-            tail = null;
-        }
-
-        return returnNode;
-    }
-
-    public void printQ()
-    {
-        Node cur = head;
-
-        while(cur != null)
-        {
-            System.out.println("Measure: " + cur.note.measure + " Len: " + cur.note.noteLength +
-                " Dir: " + cur.note.arrowDirection);
-            cur = cur.next();
-        }
-    }
-
-    public void qTest()
-    {
-        for(int i = 0; i < 10; i++)
-        {
-            Node newNode = new Node(i);
-            enqueue(newNode);
-            System.out.println("Enqueued: " + newNode.val +
-                    ". Head = " + head.val + " Tail = " + tail.val);
-        }
-
-        while(!isEmpty())
-        {
-            Node removedNode = dequeueNode();
-            if(!isEmpty())
-            {
-                System.out.println("Dequeued: " + removedNode.val + ". Head = " + head.val +
-                        " Tail = " + tail.val + " isEmpty = " + isEmpty());
-            }
-        }
     }
 }

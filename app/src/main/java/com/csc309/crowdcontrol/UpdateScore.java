@@ -60,6 +60,11 @@ public class UpdateScore extends GameObject{
 
     }
 
+    public boolean shouldDequeue(){
+        return false;
+    }
+
+
 
 
 }
