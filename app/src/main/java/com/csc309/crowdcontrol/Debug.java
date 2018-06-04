@@ -2,7 +2,6 @@ package com.csc309.crowdcontrol;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 
 public class Debug extends AppCompatActivity {
 

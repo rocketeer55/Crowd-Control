@@ -1,11 +1,9 @@
 package com.csc309.crowdcontrol;
 
-import java.net.BindException;
 import java.util.*;
 import java.io.*;
 import android.content.res.Resources;
 import android.content.Context;
-import android.icu.util.Measure;
 
 public class MIDIReader
 {
@@ -16,13 +14,16 @@ public class MIDIReader
     public static MIDINode head;
     public static MIDINode tail;
 
+    private MIDIReader() {
+        // Do nothing}
+    }
+
     private static class MIDINode
     {
         public MIDINode next;
         public String statusByte;
         public String key;
         public String vel;
-        public BeatMap.NOTE_LENGTH noteLength;
         public int timeAdded;
 
         public MIDINode(String statusByte, String key, String vel, int timeAdded)
@@ -46,7 +47,6 @@ public class MIDIReader
             float temp = val;
             while(temp > 100.0)
             {
-                //measureVal += 100.0;
                 measure++;
                 temp -= 100;
             }
@@ -140,7 +140,6 @@ public class MIDIReader
                         incrementMeasure(62.5f);
                 break;
             default: returnVal = BeatMap.NOTE_LENGTH.UNKNOWN_LENGTH;
-                System.out.println("MEASURE: " + measure + " UNKNOWN LENGTH OF: " + hexVal);
                 break;
         }
 
@@ -161,7 +160,6 @@ public class MIDIReader
             case "48": returnVal = Arrow.DIRECTION.DOWN;
                 break;
             default: returnVal = Arrow.DIRECTION.UP;
-                System.out.println("WRONG NOTE DETECTED. GIVE UP ON YOUR LIFE.");
                 break;
         }
         return returnVal;
@@ -171,9 +169,7 @@ public class MIDIReader
     {
         Resources resources = context.getResources();
         InputStream readStream = resources.openRawResource(resID);
-        Scanner scanner = new Scanner(readStream);
 
-        int lastBar = 1;
         try
         {
             int tempVal = 0;
@@ -181,7 +177,6 @@ public class MIDIReader
 
             //Read through Header Chunk
             int i = 0;
-            System.out.print("HEADER: ");
             while(i < 4)
             {
                 tempVal = readStream.read();
@@ -189,10 +184,8 @@ public class MIDIReader
                 {
                     val = Integer.toHexString(tempVal);
                     i++;
-                    System.out.print(val);
                 }
             }
-            System.out.println();
 
             int headerLength = 0;
             i = 0;
@@ -202,7 +195,6 @@ public class MIDIReader
                 i++;
             }
 
-            System.out.println("HEADER LENGTH: " + headerLength);
 
             i = 0;
             while(i < headerLength)
@@ -212,7 +204,6 @@ public class MIDIReader
             }
 
             //Read through Track Chunk
-            System.out.println("TRACK HEADER: ");
             i = 0;
             while(i < 4)
             {
@@ -220,12 +211,9 @@ public class MIDIReader
                 if(tempVal != -1)
                 {
                     val = Integer.toHexString(tempVal);
-                    System.out.print(val);
                 }
                 i++;
             }
-
-            System.out.println();
 
             int trackHeaderLength = 0;
             i = 0;
@@ -235,7 +223,6 @@ public class MIDIReader
                 i++;
             }
 
-            System.out.println("TRACK HEADER LENGTH: " + trackHeaderLength);
 
             i = 0;
 
@@ -248,77 +235,57 @@ public class MIDIReader
             val = "00";
 
             //Read through MIDI Track Name, which is a variable length
-            System.out.println("BYPASSING: ");
 
             while(tempVal != 255)
             {
                 tempVal = readStream.read();
                 val = Integer.toHexString(tempVal);
-                System.out.print(val);
             }
 
-            System.out.println();
 
             i = 0;
 
             //Read through Time Signature Data
-            System.out.print("SKIPPING TIME SIGNAGURE DATA: ");
-            System.out.print(val);
 
             while(i < 7)
             {
                 tempVal = readStream.read();
                 val = Integer.toHexString(tempVal);
-                System.out.print(val);
                 i++;
             }
-            System.out.println();
 
             //Read through duplicate (for some reason) Time Signature Data
-            System.out.print("SKIPPING DUPLICATE TIME SIGNAGURE DATA: ");
-            System.out.print(val);
 
             i = 0;
             while(i < 8)
             {
                 tempVal = readStream.read();
                 val = Integer.toHexString(tempVal);
-                System.out.print(val);
                 i++;
             }
-            System.out.println();
 
             //Read through MIDI events. This is the important information.
-            System.out.println("START OF MIDI EVENTS SHOULD BE HERE");
 
             measureVal = 0.0f;
             measure = 1;
 
             boolean firstPass = true;
-            int delta_t;
-            int count = 0;
 
             while(tempVal != -1)
             {
                 if(firstPass)
                 {
-                    System.out.println("Got here");
                     firstPass = false;
-                    delta_t = 0;
                     elapsedTime = 0;
                 }
 
                 else
                 {
                     boolean reading = true;
-                    delta_t = 0;
-
-                    //System.out.println("Got there");
 
                     while(reading)
                     {
                         tempVal = readStream.read();
-                        delta_t += tempVal;
                         elapsedTime += tempVal;
                         if((tempVal & 0x80) == 0x00)
                         {
@@ -328,8 +295,6 @@ public class MIDIReader
                 }
                 tempVal = readStream.read();
                 val = Integer.toHexString(tempVal);
-
-                //System.out.println("VAL: " + val);
 
                 //Track End Indicator
                 if(tempVal == 255)
@@ -358,24 +323,13 @@ public class MIDIReader
                 {
                     readStream.read();
                     readStream.read();
-                    MIDINode tempNode = dequeue();
-
-                    System.out.println(measure + " " + hexToNoteLength(
-                            Integer.toHexString(elapsedTime - tempNode.timeAdded))
-                             + " " + hexToDir(tempNode.key) );
-                    count++;
-                   /* System.out.println("NODE DEQUEUED: SB: " + tempNode.statusByte
-                            + " KEY: " + hexToDir(tempNode.key) + " VEL: " + tempNode.vel +
-                            " DT: " + hexToNoteLength(
-                                    Integer.toHexString(elapsedTime - tempNode.timeAdded)));*/
+                    dequeue();
                 }
             }
-            System.out.println();
-            System.out.println("READ " + count + " NOTES.");
         }
         catch (IOException e)
         {
-
+            // Who knows what to do here
         }
     }
 
