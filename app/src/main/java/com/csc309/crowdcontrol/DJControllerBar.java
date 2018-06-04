@@ -11,8 +11,7 @@ public class DJControllerBar extends GameObject {
     private int screenWidth;
     private int screenHeight;
     private Paint paint;
-    private Bitmap left;
-    private Bitmap right;
+    private Bitmap turntable;
 
     public DJControllerBar(Context context, int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
@@ -20,9 +19,8 @@ public class DJControllerBar extends GameObject {
 
         paint = new Paint();
 
-        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.vinyl);
-        left = Bitmap.createScaledBitmap(bmp, screenWidth / 4, screenWidth / 4, false);
-        right = Bitmap.createScaledBitmap(bmp, screenWidth / 4, screenWidth / 4, false);
+        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.turntable);
+        turntable = Bitmap.createScaledBitmap(bmp, screenWidth, screenHeight - (3 * screenHeight / 4), false);
     }
 
     public boolean shouldDelete() {
@@ -38,11 +36,10 @@ public class DJControllerBar extends GameObject {
     public void draw(Canvas canvas) {
         if (canvas == null) {return;}
 
-        paint.setColor(Color.GREEN);
+        paint.setColor(Color.GRAY);
         paint.setStyle(Paint.Style.FILL);
         canvas.drawRect(0, 9 * screenHeight / 12, screenWidth - 1, screenHeight - 1, paint);
 
-        canvas.drawBitmap(left, screenWidth / 8, 9 * screenHeight / 12 + screenHeight / 96, null);
-        canvas.drawBitmap(right, 5 * screenWidth / 8, 9 * screenHeight / 12 + screenHeight / 96, null);
+        canvas.drawBitmap(turntable, 0, 3 * screenHeight / 4, null);
     }
 }

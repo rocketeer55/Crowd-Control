@@ -43,24 +43,28 @@ public class CustomGestureDetector implements GestureDetector.OnGestureListener 
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         if (e1.getY() > 9 * screenHeight / 12) {
             // Swipe was in the controller - area
-
-            if (e1.getX() - e2.getX() > 50) {
-                left = true;
-                return true;
+            if (e1.getX() < screenWidth / 2.f) {
+                // Left half of the screen - check left and right swipes
+                if (e1.getX() - e2.getX() > 50) {
+                    left = true;
+                    return true;
+                }
+                if (e1.getX() - e2.getX() < -50) {
+                    right = true;
+                    return true;
+                }
             }
-            if (e1.getX() - e2.getX() < -50) {
-                right = true;
-                return true;
+            else {
+                // right half of the screen - check up and down swipes
+                if (e1.getY() - e2.getY() > 50) {
+                    up = true;
+                    return true;
+                }
+                if (e1.getY() - e2.getY() < -50) {
+                    down = true;
+                    return true;
+                }
             }
-            if (e1.getY() - e2.getY() > 50) {
-                up = true;
-                return true;
-            }
-            if (e1.getY() - e2.getY() < -50) {
-                down = true;
-                return true;
-            }
-
         }
 
         return false;
