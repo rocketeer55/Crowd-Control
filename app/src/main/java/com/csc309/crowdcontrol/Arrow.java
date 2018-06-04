@@ -13,17 +13,54 @@ public class Arrow extends GameObject {
         LEFT, RIGHT, UP, DOWN
     }
 
-    private int x;
-    private int y;
-    private int screenHeight;
-    DIRECTION mode;
+    private int x, y, velocity, screenWidth, screenHeight;
+    public DIRECTION mode;
     private Bitmap image;
-    private boolean shouldDelete;
+    private boolean shouldDelete = false;
+    private boolean shouldDequeue = false;
 
     //USED TO TRACK SCREEN POSITION
+    public float songPosTarget;
     private float songPosStart;
-    private float songPosTarget;
     public float currentSongPos;
+
+    int ARROW_STARTING_Y; //Where arrows are spawned
+    private float ARROW_TARGET_Y; //Where arrows should end up
+
+    public boolean wasDequeued = false;
+
+    public Arrow(Context current, DIRECTION mode, int velocity, int screenWidth, int screenHeight) {
+        y = 0;
+        this.velocity = velocity;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+        this.mode = mode;
+
+        Bitmap bmp = BitmapFactory.decodeResource(current.getResources(), R.drawable.uparrowbluenormal);
+        bmp = Bitmap.createScaledBitmap(bmp, screenWidth/6, screenWidth/6, false);
+
+
+        if (mode == DIRECTION.LEFT) {
+            // Left Arrow
+            image = rotateBitmap(bmp, 270);
+            x = screenWidth/15; // left gap
+        }
+        else if (mode == DIRECTION.UP) {
+            // Up Arrow
+            image = bmp;
+            x = 2 * screenWidth/15 + image.getWidth(); // two gaps + 1 width
+        }
+        else if (mode == DIRECTION.DOWN) {
+            // Down Arrow
+            image = rotateBitmap(bmp, 180);
+            x = 3 * screenWidth/15 + 2 * image.getWidth(); // three gaps + 2 widths
+        }
+        else {
+            // Right Arrow
+            image = rotateBitmap(bmp, 90);
+            x = 4 * screenWidth/15 + 3 * image.getWidth(); // four gaps + 3 widths
+        }
+    }
 
     int arrowStartingY; //Where arrows are spawned
     private float arrowTargetY; //Where arrows should end up
@@ -84,15 +121,20 @@ public class Arrow extends GameObject {
         return shouldDelete;
     }
 
+    public boolean shouldDequeue() {return shouldDequeue;}
+
     public void update(float songPosition) {
 
         this.currentSongPos = songPosition;
 
-
         float temp = (songPosTarget - currentSongPos)/(songPosTarget - songPosStart);
         y = ((int)((1-temp) * (arrowTargetY - (arrowStartingY)))) + (arrowStartingY);
 
-        if (y > screenHeight || currentSongPos > songPosTarget) {shouldDelete = true;}
+        if (y > screenHeight || currentSongPos > songPosTarget + 100)
+        {
+            shouldDelete = true;
+            shouldDequeue = true;
+        }
     }
 
     public void draw(Canvas canvas) {

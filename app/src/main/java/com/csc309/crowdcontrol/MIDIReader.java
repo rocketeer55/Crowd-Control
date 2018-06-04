@@ -24,6 +24,7 @@ public class MIDIReader
         public String statusByte;
         public String key;
         public String vel;
+        public BeatMap.NOTE_LENGTH noteLength;
         public int timeAdded;
 
         public MIDINode(String statusByte, String key, String vel, int timeAdded)
