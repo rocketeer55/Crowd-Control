@@ -17,20 +17,11 @@ public class Debug extends AppCompatActivity {
     public void performQTest(View view)
     {
         BeatMap beatMap = new BeatMap();
-        beatMap.qTest();
     }
 
     public void performFileTest(View view)
     {
-        try
-        {
-            BeatMap beatMap = new BeatMap(R.raw.thethrillbeatmap, getApplicationContext());
-        }
-
-        catch(FileNotFoundException e)
-        {
-            System.out.println("FILE NOT FOUND");
-        }
+        BeatMap beatMap = new BeatMap(R.raw.thethrillbeatmap, getApplicationContext());
 
     }
 

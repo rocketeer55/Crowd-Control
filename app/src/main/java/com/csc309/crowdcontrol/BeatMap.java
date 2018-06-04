@@ -2,13 +2,8 @@ package com.csc309.crowdcontrol;
 
 import java.io.*;
 import java.util.*;
-import android.app.Activity;
 import android.content.res.Resources;
 import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
-
 public class BeatMap
 {
     public enum NOTE_LENGTH
@@ -51,7 +46,7 @@ public class BeatMap
     public Node head;
     public Node tail;
 
-    public BeatMap(int resID, Context context) throws FileNotFoundException
+    public BeatMap(int resID, Context context)
     {
         Resources resources = context.getResources();
         InputStream readStream = resources.openRawResource(resID);
@@ -63,7 +58,7 @@ public class BeatMap
 
     public BeatMap()
     {
-
+        // Default constructor
     }
 
     NOTE_LENGTH stringToNoteLength(String string)
@@ -153,14 +148,12 @@ public class BeatMap
         bpm = scanner.nextFloat();
         scanner.nextLine();
 
-        //System.out.println("Offset: " + offset +
         // " BeatsPerMeasure: " + beatsPerMeasure + " BPM: " + bpm);
         int count = 0;
         while(scanner.hasNext())
         {
             count++;
             line = scanner.nextLine();
-            System.out.println(count + " READING LINE: " + line);
             Scanner lineScanner = new Scanner(line);
 
             if(lineScanner.hasNextInt())
@@ -177,14 +170,11 @@ public class BeatMap
 
             else
             {
-                System.out.println("SKIPPING A LINE FOR SOME REASON");
                 count--;
             }
 
             lineScanner.close();
         }
-        System.out.println("ENQUEUED " + count + " NOTES.");
-        //printQ();
     }
 
     public void enqueue(Node node)
@@ -207,11 +197,6 @@ public class BeatMap
         }
     }
 
-    public boolean isEmpty()
-    {
-        return (tail == null);
-    }
-
     public Note dequeue()
     {
         if(head == null)
@@ -229,52 +214,5 @@ public class BeatMap
         }
 
         return returnNode.note;
-    }
-
-    public Node dequeueNode()
-    {
-        Node returnNode = head;
-
-        head = head.next;
-
-        if(head == null)
-        {
-            tail = null;
-        }
-
-        return returnNode;
-    }
-
-    public void printQ()
-    {
-        Node cur = head;
-
-        while(cur != null)
-        {
-            System.out.println("Measure: " + cur.note.measure + " Len: " + cur.note.noteLength +
-                " Dir: " + cur.note.arrowDirection);
-            cur = cur.next();
-        }
-    }
-
-    public void qTest()
-    {
-        for(int i = 0; i < 10; i++)
-        {
-            Node newNode = new Node(i);
-            enqueue(newNode);
-            System.out.println("Enqueued: " + newNode.val +
-                    ". Head = " + head.val + " Tail = " + tail.val);
-        }
-
-        while(!isEmpty())
-        {
-            Node removedNode = dequeueNode();
-            if(!isEmpty())
-            {
-                System.out.println("Dequeued: " + removedNode.val + ". Head = " + head.val +
-                        " Tail = " + tail.val + " isEmpty = " + isEmpty());
-            }
-        }
     }
 }
