@@ -9,9 +9,11 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 
 public class DJControllerBar extends GameObject {
-    private int screenWidth, screenHeight;
+    private int screenWidth;
+    private int screenHeight;
     private Paint paint;
-    Bitmap left, right;
+    private Bitmap left;
+    private Bitmap right;
 
     public DJControllerBar(Context context, int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
@@ -24,21 +26,12 @@ public class DJControllerBar extends GameObject {
         right = Bitmap.createScaledBitmap(bmp, screenWidth / 4, screenWidth / 4, false);
     }
 
-    private Bitmap rotateBitmap(Bitmap src, float degree) {
-        // Create new matrix
-        Matrix matrix = new Matrix();
-        // Setup rotation degree
-        matrix.postRotate(degree);
-        Bitmap bmp = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
-        return bmp;
-    }
-
-
     public boolean shouldDelete() {
         return false;
     }
 
     public void update(float songPos) {
+        // DJ controller bar doesn't need to update
     }
 
     public void draw(Canvas canvas) {

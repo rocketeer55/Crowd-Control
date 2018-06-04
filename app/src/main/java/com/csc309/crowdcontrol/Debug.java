@@ -4,8 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import java.io.FileNotFoundException;
-
 public class Debug extends AppCompatActivity {
 
     @Override
@@ -14,18 +12,18 @@ public class Debug extends AppCompatActivity {
         setContentView(R.layout.activity_debug);
     }
 
-    public void performQTest(View view)
+    public void performQTest()
     {
-        BeatMap beatMap = new BeatMap();
+        // Something would be done here, but it smells.
     }
 
-    public void performFileTest(View view)
+    public void performFileTest()
     {
-        BeatMap beatMap = new BeatMap(R.raw.thethrillbeatmap, getApplicationContext());
+        // Something would happen here too, but it also smells.
 
     }
 
-    public void performMIDIReadTest(View view)
+    public void performMIDIReadTest()
     {
         MIDIReader.readMidi(getApplicationContext(), R.raw.thethrillmidi);
     }
