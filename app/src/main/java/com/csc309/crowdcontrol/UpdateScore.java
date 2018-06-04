@@ -19,6 +19,8 @@ public class UpdateScore extends GameObject{
 
     public int score = 0;
 
+    private float delta = 0;
+
     // multipliers
     int multipler = 1;
 
@@ -51,8 +53,9 @@ public class UpdateScore extends GameObject{
 
         }
 
-    public void update(float songPos){
-       score += okay;
+    public void update(float delta){
+
+       this.score = score;
     }
 
     public boolean shouldDelete(){

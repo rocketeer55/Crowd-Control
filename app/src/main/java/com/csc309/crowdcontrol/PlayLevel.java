@@ -42,6 +42,9 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     private CustomGestureDetector customGestureDetector;
     private LinkedList<Arrow> arrowList;
 
+    private int score = 0;
+    private int multipler = 1;
+
     public PlayLevel(Context context) throws FileNotFoundException
     {
         super(context);
@@ -69,7 +72,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
         objects.add(new ArrowColliderBar(getContext(), screenWidth, screenHeight));
         objects.add(new DJControllerBar(getContext(), screenWidth, screenHeight));
-        objects.add(new UpdateScore(getContext(), screenWidth, screenHeight));
+        //objects.add(new UpdateScore(getContext(), screenWidth, screenHeight));
     }
 
     @Override
@@ -158,6 +161,8 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                         && songPos < (arr.songPosTarget + 100 ) &&
                         arr.mode == Arrow.DIRECTION.LEFT)
                 {
+                    // calculate delta
+                    score += 100;
                     removeArrow();
                 }
             }
@@ -174,6 +179,8 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                         && songPos < (arr.songPosTarget + 100 ) &&
                         arr.mode == Arrow.DIRECTION.RIGHT)
                 {
+                    // calculate delta
+                    score += 100;
                     removeArrow();
                 }
             }
@@ -190,6 +197,8 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                         && songPos < (arr.songPosTarget + 100 ) &&
                         arr.mode == Arrow.DIRECTION.UP)
                 {
+                    // calculate delta
+                    score += 100;
                     removeArrow();
                 }
             }
@@ -206,6 +215,8 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                         && songPos < (arr.songPosTarget + 100 ) &&
                         arr.mode == Arrow.DIRECTION.DOWN)
                 {
+                    // calculate delta
+                    score += 100;
                     removeArrow();
                 }
             }
@@ -231,6 +242,18 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
             {
                 arr.draw(canvas);
             }
+
+            paint.setColor(Color.BLUE);
+            paint.setStyle(Paint.Style.FILL);
+            canvas.drawRect(0, 0, screenWidth - 1, 100, paint);
+
+            paint.setColor(Color.WHITE);
+            paint.setTextSize(48f);
+            canvas.drawText("Score: " + score, 20,80,paint);
+
+            paint.setColor(Color.WHITE);
+            paint.setTextSize(48f);
+            canvas.drawText("Multipler: " + multipler + "x", screenWidth/2,80,paint);
         }
     }
 
