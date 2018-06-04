@@ -24,6 +24,8 @@ public class Arrow extends GameObject {
     private float songPosStart;
     public float currentSongPos;
 
+    public boolean wasMissed;
+
     int ARROW_STARTING_Y; //Where arrows are spawned
     private float ARROW_TARGET_Y; //Where arrows should end up
 
@@ -130,12 +132,14 @@ public class Arrow extends GameObject {
         float temp = (songPosTarget - currentSongPos)/(songPosTarget - songPosStart);
         y = ((int)((1-temp) * (arrowTargetY - (arrowStartingY)))) + (arrowStartingY);
 
+        //@MATT
         if (y > screenHeight || currentSongPos > songPosTarget + 100)
         {
             System.out.println("MISSED NOTE");
             shouldDelete = true;
             shouldDequeue = true;
             y = Integer.MAX_VALUE;
+            wasMissed = true;
         }
     }
 

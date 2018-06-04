@@ -1,6 +1,10 @@
 package com.csc309.crowdcontrol;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +19,10 @@ import java.io.FileNotFoundException;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
+
+
 public class PlayLevelActivity extends AppCompatActivity {
+
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -115,13 +122,10 @@ public class PlayLevelActivity extends AppCompatActivity {
 
 
         //Spawns an instance of PlayLevel
-        try
-        {
+        try {
             playLevel = new PlayLevel(this);
             setContentView(playLevel);
-        }
-        catch (FileNotFoundException e)
-        {
+        } catch (FileNotFoundException e) {
             // Relatable - Spencer
             System.out.println("All is Lost");
         }
@@ -171,6 +175,11 @@ public class PlayLevelActivity extends AppCompatActivity {
         mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
     }
 
+    private void killActivity() {
+        finish();
+    }
+
+
     /**
      * Schedules a call to hide() in delay milliseconds, canceling any
      * previously scheduled calls.
@@ -181,7 +190,7 @@ public class PlayLevelActivity extends AppCompatActivity {
     }
 
     public void FullScreencall() {
-        if(Build.VERSION.SDK_INT < 19){
+        if (Build.VERSION.SDK_INT < 19) {
             View v = this.getWindow().getDecorView();
             v.setSystemUiVisibility(View.GONE);
         } else {
@@ -191,4 +200,12 @@ public class PlayLevelActivity extends AppCompatActivity {
             decorView.setSystemUiVisibility(uiOptions);
         }
     }
+
+    public class MessageHandler extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            killActivity();
+        }
+    }
 }
+

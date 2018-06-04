@@ -1,17 +1,24 @@
 package com.csc309.crowdcontrol;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.provider.MediaStore;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+import android.os.Bundle;
+import android.app.Activity;
+import android.content.Intent;
+import android.view.Menu;
+import android.view.View;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -44,6 +51,9 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
     private int score = 0;
     private int multipler = 1;
+
+    private int missedCount = 0;
+
 
     public PlayLevel(Context context) throws FileNotFoundException
     {
@@ -132,6 +142,19 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     // Updates the positional information of every GameObject
     public void update()
     {
+
+        //Delete if issue, should launch the gameover option
+        if(missedCount >= 5) {
+            Context context = getContext();
+            Intent intent = new Intent(context, GameOverActivity.class);
+            context.startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("key", score);
+
+            ((Activity) context).finish();
+            missedCount = 0;
+
+        }
         for (GameObject o : objects) {
             o.update(songPos);
         }
@@ -139,6 +162,9 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         for (Arrow arr : arrowList)
         {
             arr.update(songPos);
+            if(arr.wasMissed == true) {
+                missedCount +=1;
+            }
         }
 
         Arrow temp = arrowList.peek();
@@ -163,7 +189,11 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                 {
                     // calculate delta
                     score += 100;
+                    missedCount = 0;
                     removeArrow();
+                }
+                else {
+                    missedCount += 1;
                 }
             }
             // set it back to false after handling the swipe
@@ -181,7 +211,11 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                 {
                     // calculate delta
                     score += 100;
+                    missedCount = 0;
                     removeArrow();
+                }
+                else {
+                    missedCount += 1;
                 }
             }
             // set it back to false after handling the swipe
@@ -199,7 +233,11 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                 {
                     // calculate delta
                     score += 100;
+                    missedCount = 0;
                     removeArrow();
+                }
+                else {
+                    missedCount += 1;
                 }
             }
             // set it back to false after handling the swipe
@@ -217,7 +255,11 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                 {
                     // calculate delta
                     score += 100;
+                    missedCount = 0;
                     removeArrow();
+                }
+                else {
+                    missedCount += 1;
                 }
             }
             // set it back to false after handling the swipe
