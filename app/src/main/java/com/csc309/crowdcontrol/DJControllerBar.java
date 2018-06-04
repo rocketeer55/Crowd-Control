@@ -38,6 +38,8 @@ public class DJControllerBar extends GameObject {
         return false;
     }
 
+    public boolean shouldDequeue() {return false;}
+
     public void update(float songPos) {
     }
 

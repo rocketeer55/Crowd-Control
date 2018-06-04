@@ -39,6 +39,8 @@ public class ArrowColliderBar extends GameObject {
 
     public boolean shouldDelete() {return false;}
 
+    public boolean shouldDequeue() {return false;}
+
     public void update(float songPos) {
 
     }

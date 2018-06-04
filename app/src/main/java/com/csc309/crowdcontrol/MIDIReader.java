@@ -302,9 +302,7 @@ public class MIDIReader
             {
                 if(firstPass)
                 {
-                    System.out.println("Got here");
                     firstPass = false;
-                    delta_t = 0;
                     elapsedTime = 0;
                 }
 
@@ -312,8 +310,6 @@ public class MIDIReader
                 {
                     boolean reading = true;
                     delta_t = 0;
-
-                    //System.out.println("Got there");
 
                     while(reading)
                     {
@@ -328,8 +324,6 @@ public class MIDIReader
                 }
                 tempVal = readStream.read();
                 val = Integer.toHexString(tempVal);
-
-                //System.out.println("VAL: " + val);
 
                 //Track End Indicator
                 if(tempVal == 255)
@@ -364,10 +358,6 @@ public class MIDIReader
                             Integer.toHexString(elapsedTime - tempNode.timeAdded))
                              + " " + hexToDir(tempNode.key) );
                     count++;
-                   /* System.out.println("NODE DEQUEUED: SB: " + tempNode.statusByte
-                            + " KEY: " + hexToDir(tempNode.key) + " VEL: " + tempNode.vel +
-                            " DT: " + hexToNoteLength(
-                                    Integer.toHexString(elapsedTime - tempNode.timeAdded)));*/
                 }
             }
             System.out.println();

@@ -14,18 +14,21 @@ public class Arrow extends GameObject {
     }
 
     private int x, y, velocity, screenWidth, screenHeight;
-    DIRECTION mode;
+    public DIRECTION mode;
     private Bitmap image;
-    private boolean shouldDelete;
+    private boolean shouldDelete = false;
+    private boolean shouldDequeue = false;
 
     //USED TO TRACK SCREEN POSITION
     private float songPosStart;
-    private float songPosTarget;
+    public float songPosTarget;
     private boolean bradArrow = false;
     public float currentSongPos;
 
     int ARROW_STARTING_Y; //Where arrows are spawned
     private float ARROW_TARGET_Y; //Where arrows should end up
+
+    public boolean wasDequeued = false;
 
     public Arrow(Context current, DIRECTION mode, int velocity, int screenWidth, int screenHeight) {
         y = 0;
@@ -122,15 +125,20 @@ public class Arrow extends GameObject {
         return shouldDelete;
     }
 
+    public boolean shouldDequeue() {return shouldDequeue;}
+
     public void update(float songPosition) {
 
         this.currentSongPos = songPosition;
 
-
         float temp = (songPosTarget - currentSongPos)/(songPosTarget - songPosStart);
         y = ((int)((1-temp) * (ARROW_TARGET_Y - (ARROW_STARTING_Y)))) + (ARROW_STARTING_Y);
 
-        if (y > screenHeight || currentSongPos > songPosTarget) {shouldDelete = true;}
+        if (y > screenHeight || currentSongPos > songPosTarget + 100)
+        {
+            shouldDelete = true;
+            shouldDequeue = true;
+        }
     }
 
     public void draw(Canvas canvas) {
