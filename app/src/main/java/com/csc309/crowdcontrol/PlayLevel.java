@@ -69,6 +69,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
         objects.add(new ArrowColliderBar(getContext(), screenWidth, screenHeight));
         objects.add(new DJControllerBar(getContext(), screenWidth, screenHeight));
+        objects.add(new UpdateScore(getContext(), screenWidth, screenHeight));
     }
 
     @Override
@@ -122,8 +123,11 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
-    //Updates the positional information of every GameObject
-    public void update() 
+
+    // update score here
+    // have score extend game object
+    // Updates the positional information of every GameObject
+    public void update()
     {
         for (GameObject o : objects) {
             o.update(songPos);
@@ -148,11 +152,14 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
             // there was a left swipe last frame - DO SOMETHING
             System.out.println("left");
             Arrow arr = arrowList.peek();
-            if(songPos > (arr.songPosTarget - 100)
-                    && songPos < (arr.songPosTarget + 100 ) &&
-                    arr.mode == Arrow.DIRECTION.LEFT)
+            if(arr != null)
             {
-                removeArrow();
+                if(songPos > (arr.songPosTarget - 100)
+                        && songPos < (arr.songPosTarget + 100 ) &&
+                        arr.mode == Arrow.DIRECTION.LEFT)
+                {
+                    removeArrow();
+                }
             }
             // set it back to false after handling the swipe
             customGestureDetector.left = false;
@@ -161,11 +168,14 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
             // there was a right swipe last frame - DO SOMETHING
             System.out.println("right");
             Arrow arr = arrowList.peek();
-            if(songPos > (arr.songPosTarget - 100)
-                    && songPos < (arr.songPosTarget + 100 ) &&
-                    arr.mode == Arrow.DIRECTION.RIGHT)
+            if(arr != null)
             {
-                removeArrow();
+                if(songPos > (arr.songPosTarget - 100)
+                        && songPos < (arr.songPosTarget + 100 ) &&
+                        arr.mode == Arrow.DIRECTION.RIGHT)
+                {
+                    removeArrow();
+                }
             }
             // set it back to false after handling the swipe
             customGestureDetector.right = false;
@@ -174,11 +184,14 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
             // there was an up swipe last frame - DO SOMETHING
             System.out.println("up");
             Arrow arr = arrowList.peek();
-            if(songPos > (arr.songPosTarget - 100)
-                    && songPos < (arr.songPosTarget + 100 ) &&
-                    arr.mode == Arrow.DIRECTION.UP)
+            if(arr != null)
             {
-                removeArrow();
+                if(songPos > (arr.songPosTarget - 100)
+                        && songPos < (arr.songPosTarget + 100 ) &&
+                        arr.mode == Arrow.DIRECTION.UP)
+                {
+                    removeArrow();
+                }
             }
             // set it back to false after handling the swipe
             customGestureDetector.up = false;
@@ -187,11 +200,14 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
             // there was a down swipe last frame - DO SOMETHING
             System.out.println("down");
             Arrow arr = arrowList.peek();
-            if(songPos > (arr.songPosTarget - 100)
-                    && songPos < (arr.songPosTarget + 100 ) &&
-                    arr.mode == Arrow.DIRECTION.DOWN)
+            if(arr != null)
             {
-                removeArrow();
+                if(songPos > (arr.songPosTarget - 100)
+                        && songPos < (arr.songPosTarget + 100 ) &&
+                        arr.mode == Arrow.DIRECTION.DOWN)
+                {
+                    removeArrow();
+                }
             }
             // set it back to false after handling the swipe
             customGestureDetector.down = false;
