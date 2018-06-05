@@ -147,9 +147,10 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         if(missedCount >= 5) {
             Context context = getContext();
             Intent intent = new Intent(context, GameOverActivity.class);
+            intent.putExtra("Score", score);
             context.startActivity(intent);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("key", score);
+
 
             ((Activity) context).finish();
             missedCount = 0;

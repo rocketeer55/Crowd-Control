@@ -6,8 +6,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 public class GameOverActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +26,11 @@ public class GameOverActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        int data = getIntent().getExtras().getInt("Score");
 
-        Bundle extras = getIntent().getExtras();
-        int score = 0;
-        if (extras != null) {
-            score = extras.getInt("key");
-            System.out.println(score);
-        }
+        TextView val = (TextView) findViewById(R.id.scoreView);
+        String x = Integer.toString(data);
+        val.setText("Score: " + x);
 
     }
 

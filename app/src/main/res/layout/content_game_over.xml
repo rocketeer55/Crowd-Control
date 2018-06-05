@@ -8,14 +8,32 @@
     tools:context=".GameOverActivity"
     tools:showIn="@layout/activity_game_over">
 
-    <EditText
+    <TextView
         android:id="@+id/editText"
-        android:layout_width="285dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="41dp"
+        android:layout_marginEnd="49dp"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="104dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:text="GAME OVER"
+        android:textAlignment="center"
         android:textSize="50sp"
-        tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="237dp" />
+        app:layout_constraintBottom_toTopOf="@+id/scoreView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/scoreView"
+        android:layout_width="85dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="247dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
 </android.support.constraint.ConstraintLayout>
