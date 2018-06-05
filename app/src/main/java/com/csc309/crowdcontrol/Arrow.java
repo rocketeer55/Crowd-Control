@@ -13,7 +13,9 @@ public class Arrow extends GameObject {
         LEFT, RIGHT, UP, DOWN
     }
 
-    private int x, y, velocity, screenWidth, screenHeight;
+    private int x;
+    private int y;
+    private int screenHeight;
     public DIRECTION mode;
     private Bitmap image;
     private boolean shouldDelete = false;
@@ -22,47 +24,10 @@ public class Arrow extends GameObject {
     //USED TO TRACK SCREEN POSITION
     public float songPosTarget;
     private float songPosStart;
-    public float currentSongPos;
 
-    int ARROW_STARTING_Y; //Where arrows are spawned
-    private float ARROW_TARGET_Y; //Where arrows should end up
+    public boolean wasMissed;
 
-    public boolean wasDequeued = false;
-
-    public Arrow(Context current, DIRECTION mode, int velocity, int screenWidth, int screenHeight) {
-        y = 0;
-        this.velocity = velocity;
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
-        this.mode = mode;
-
-        Bitmap bmp = BitmapFactory.decodeResource(current.getResources(), R.drawable.uparrowbluenormal);
-        bmp = Bitmap.createScaledBitmap(bmp, screenWidth/6, screenWidth/6, false);
-
-
-        if (mode == DIRECTION.LEFT) {
-            // Left Arrow
-            image = rotateBitmap(bmp, 270);
-            x = screenWidth/15; // left gap
-        }
-        else if (mode == DIRECTION.UP) {
-            // Up Arrow
-            image = bmp;
-            x = 2 * screenWidth/15 + image.getWidth(); // two gaps + 1 width
-        }
-        else if (mode == DIRECTION.DOWN) {
-            // Down Arrow
-            image = rotateBitmap(bmp, 180);
-            x = 3 * screenWidth/15 + 2 * image.getWidth(); // three gaps + 2 widths
-        }
-        else {
-            // Right Arrow
-            image = rotateBitmap(bmp, 90);
-            x = 4 * screenWidth/15 + 3 * image.getWidth(); // four gaps + 3 widths
-        }
-    }
-
-    int arrowStartingY; //Where arrows are spawned
+    private int arrowStartingY; //Where arrows are spawned
     private float arrowTargetY; //Where arrows should end up
 
     //BRAD IS RESPONSIBLE FOR THIS AND WHATEVER CONSEQUENCES ARISE FROM IT
@@ -124,18 +89,16 @@ public class Arrow extends GameObject {
     public boolean shouldDequeue() {return shouldDequeue;}
 
     public void update(float songPosition) {
-
-        this.currentSongPos = songPosition;
-
-        float temp = (songPosTarget - currentSongPos)/(songPosTarget - songPosStart);
+        float temp = (songPosTarget - songPosition)/(songPosTarget - songPosStart);
         y = ((int)((1-temp) * (arrowTargetY - (arrowStartingY)))) + (arrowStartingY);
 
-        if (y > screenHeight || currentSongPos > songPosTarget + 100)
+        //@MATT
+        if (y > screenHeight || songPosition > songPosTarget + 100)
         {
-            System.out.println("MISSED NOTE");
             shouldDelete = true;
             shouldDequeue = true;
             y = Integer.MAX_VALUE;
+            wasMissed = true;
         }
     }
 
