@@ -53,6 +53,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     private int multipler = 1;
 
     private int missedCount = 0;
+    private int noteStreak = 0;
 
 
     public PlayLevel(Context context) throws FileNotFoundException
@@ -143,8 +144,26 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     public void update()
     {
 
-        //Delete if issue, should launch the gameover option
-        if(missedCount >= 5) {
+        // use this delta var to calculate score
+        float delta;
+
+        // score hits and points
+        int okay = 100;
+        int good = 250;
+        int excellent = 500;
+
+        if(noteStreak >= 10)
+            multipler = 8;
+        else if(noteStreak >= 7)
+            multipler = 4;
+        else if(noteStreak >= 4)
+            multipler = 2;
+        else
+            multipler = 1;
+
+
+            //Delete if issue, should launch the gameover option
+        if(missedCount >= 10) {
             Context context = getContext();
             Intent intent = new Intent(context, GameOverActivity.class);
             intent.putExtra("Score", score);
@@ -189,12 +208,21 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                         arr.mode == Arrow.DIRECTION.LEFT)
                 {
                     // calculate delta
-                    score += 100;
+                    delta = Math.abs(songPos - arr.songPosTarget);
+                    if (0.333 >= delta && delta >= 0)
+                        score += excellent * multipler;
+                    else if (0.666 >= delta && delta > 0.333)
+                        score += good * multipler;
+                    else
+                        score += okay * multipler;
                     missedCount = 0;
+                    noteStreak ++;
                     removeArrow();
                 }
                 else {
                     missedCount += 1;
+                    noteStreak = 0;
+
                 }
             }
             // set it back to false after handling the swipe
@@ -211,12 +239,21 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                         arr.mode == Arrow.DIRECTION.RIGHT)
                 {
                     // calculate delta
-                    score += 100;
+                    delta = Math.abs(songPos - arr.songPosTarget);
+                    if (33 >= delta && delta >= 0)
+                        score += excellent * multipler;
+                    else if (66 >= delta && delta > 33)
+                        score += good * multipler;
+                    else
+                        score += okay * multipler;
                     missedCount = 0;
+                    noteStreak ++;
                     removeArrow();
                 }
                 else {
                     missedCount += 1;
+                    noteStreak = 0;
+
                 }
             }
             // set it back to false after handling the swipe
@@ -233,12 +270,20 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                         arr.mode == Arrow.DIRECTION.UP)
                 {
                     // calculate delta
-                    score += 100;
+                    delta = Math.abs(songPos - arr.songPosTarget);
+                    if (33 >= delta && delta >= 0)
+                        score += excellent * multipler;
+                    else if (66 >= delta && delta > 33)
+                        score += good * multipler;
+                    else
+                        score += okay * multipler;
                     missedCount = 0;
+                    noteStreak ++;
                     removeArrow();
                 }
                 else {
                     missedCount += 1;
+                    noteStreak = 0;
                 }
             }
             // set it back to false after handling the swipe
@@ -255,12 +300,20 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                         arr.mode == Arrow.DIRECTION.DOWN)
                 {
                     // calculate delta
-                    score += 100;
+                    delta = Math.abs(songPos - arr.songPosTarget);
+                    if (33 >= delta && delta >= 0)
+                        score += excellent;
+                    else if (66 >= delta && delta > 33)
+                        score += good;
+                    else
+                        score += okay;
                     missedCount = 0;
+                    noteStreak ++;
                     removeArrow();
                 }
                 else {
                     missedCount += 1;
+                    noteStreak = 0;
                 }
             }
             // set it back to false after handling the swipe
