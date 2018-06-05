@@ -216,6 +216,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                     else
                         score += okay * multipler;
                     missedCount = 0;
+                    noteStreak ++;
                     removeArrow();
                 }
                 else {
@@ -246,6 +247,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                     else
                         score += okay * multipler;
                     missedCount = 0;
+                    noteStreak ++;
                     removeArrow();
                 }
                 else {
@@ -276,6 +278,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                     else
                         score += okay * multipler;
                     missedCount = 0;
+                    noteStreak ++;
                     removeArrow();
                 }
                 else {
@@ -305,6 +308,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                     else
                         score += okay;
                     missedCount = 0;
+                    noteStreak ++;
                     removeArrow();
                 }
                 else {
