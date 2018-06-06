@@ -17,6 +17,10 @@ public class ArrowColliderBar extends GameObject {
     private Bitmap down;
     private Bitmap up;
 
+    public ArrowColliderBar() {
+
+    }
+
     public ArrowColliderBar(Context context, int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
