@@ -36,10 +36,6 @@ import static org.junit.Assert.*;
  */
 class ExampleUnitTest extends AndroidTestCase {
 
-    @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
-    }
 
     @Test
     public void Sequence_Length() throws Exception {
