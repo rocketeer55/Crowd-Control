@@ -41,6 +41,8 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     //Score thing
     private UpdateScore score;
 
+    int davide;
+
     public PlayLevel(Context context)
     {
         super(context);
