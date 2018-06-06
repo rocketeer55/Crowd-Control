@@ -23,11 +23,13 @@ public class DJControllerBar extends GameObject {
         turntable = Bitmap.createScaledBitmap(bmp, screenWidth, screenHeight - (3 * screenHeight / 4), false);
     }
 
-    public boolean shouldDelete() {
+    public boolean shouldDequeue() {
         return false;
     }
 
-    public boolean shouldDequeue() {return false;}
+    public boolean shouldDelete() {
+        return false;
+    }
 
     public void update(float songPos) {
         // DJ controller bar doesn't need to update

@@ -4,13 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 
 import java.io.FileNotFoundException;
@@ -78,28 +76,11 @@ public class PlayLevelActivity extends AppCompatActivity {
             hide();
         }
     };
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
-
-
-    private PlayLevel playLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FullScreencall();
+        fullscreenCall();
         setContentView(R.layout.activity_play_level);
 
         mVisible = true;
@@ -118,16 +99,14 @@ public class PlayLevelActivity extends AppCompatActivity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        //findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
 
         //Spawns an instance of PlayLevel
         try {
-            playLevel = new PlayLevel(this);
+            PlayLevel playLevel = new PlayLevel(this);
             setContentView(playLevel);
         } catch (FileNotFoundException e) {
             // Relatable - Spencer
-            System.out.println("All is Lost");
         }
     }
 
@@ -175,11 +154,6 @@ public class PlayLevelActivity extends AppCompatActivity {
         mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
     }
 
-    private void killActivity() {
-        finish();
-    }
-
-
     /**
      * Schedules a call to hide() in delay milliseconds, canceling any
      * previously scheduled calls.
@@ -189,7 +163,7 @@ public class PlayLevelActivity extends AppCompatActivity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
-    public void FullScreencall() {
+    public void fullscreenCall() {
         if (Build.VERSION.SDK_INT < 19) {
             View v = this.getWindow().getDecorView();
             v.setSystemUiVisibility(View.GONE);
@@ -204,7 +178,7 @@ public class PlayLevelActivity extends AppCompatActivity {
     public class MessageHandler extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            killActivity();
+            finish();
         }
     }
 }
