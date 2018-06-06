@@ -1,14 +1,12 @@
 package com.csc309.crowdcontrol;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
 
-public class UpdateScore extends GameObject{
-
-    private int screenWidth, screenHeight;
+public class UpdateScore extends GameObject {
+    private int screenWidth;
     private Paint paint;
 
     public int score = 0;
@@ -22,28 +20,24 @@ public class UpdateScore extends GameObject{
 
 
     // score hits and points
-    private final int okay = 100;
-    private final int good = 250;
-    private final int excellent = 500;
+    private static final int OKAY = 100;
+    private static final int GOOD = 250;
+    private static final int EXCELLENT = 500;
 
     public UpdateScore() {
 
     }
 
-    public UpdateScore(int screenWidth, int screenHeight){
+    public UpdateScore(int screenWidth){
 
         this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
 
         paint = new Paint();
     }
 
-    public UpdateScore(Context context, int screenWidth, int screenHeight){
-
+    public UpdateScore(int screenWidth, int test)
+    {
         this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
-
-        paint = new Paint();
     }
 
     public void draw(Canvas canvas){
@@ -85,13 +79,13 @@ public class UpdateScore extends GameObject{
         // calculate delta
         float delta = Math.abs(songPos - arrowPos);
         if (33 >= delta && delta >= 0) {
-            score += excellent * multiplier;
+            score += EXCELLENT * multiplier;
         }
         else if (66 >= delta && delta > 33) {
-            score += good * multiplier;
+            score += GOOD * multiplier;
         }
         else {
-            score += okay * multiplier;
+            score += OKAY * multiplier;
         }
 
         incrementNoteStreak();
