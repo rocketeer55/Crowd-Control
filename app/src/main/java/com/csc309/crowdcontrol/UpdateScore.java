@@ -32,6 +32,11 @@ public class UpdateScore extends GameObject {
         paint = new Paint();
     }
 
+    public UpdateScore(int screenWidth, int test)
+    {
+        this.screenWidth = screenWidth;
+    }
+
     public void draw(Canvas canvas){
         if (canvas == null) {return;}
 
