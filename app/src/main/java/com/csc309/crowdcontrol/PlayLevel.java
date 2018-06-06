@@ -200,7 +200,6 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
         if (customGestureDetector.left) {
             // there was a left swipe last frame - DO SOMETHING
-            System.out.println("left");
             Arrow arr = arrowList.peek();
             if(arr != null)
             {
@@ -234,7 +233,6 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
         if (customGestureDetector.right) {
             // there was a right swipe last frame - DO SOMETHING
-            System.out.println("right");
             Arrow arr = arrowList.peek();
             if(arr != null)
             {
@@ -265,7 +263,6 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
         if (customGestureDetector.up) {
             // there was an up swipe last frame - DO SOMETHING
-            System.out.println("up");
             Arrow arr = arrowList.peek();
             if(arr != null)
             {
@@ -295,7 +292,6 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
         if (customGestureDetector.down) {
             // there was a down swipe last frame - DO SOMETHING
-            System.out.println("down");
             Arrow arr = arrowList.peek();
             if(arr != null)
             {
@@ -370,7 +366,6 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     public void removeArrow()
     {
         Arrow arr = arrowList.poll();
-        System.out.println("DEQUEUED");
         arr.wasDequeued = true;
     }
 }

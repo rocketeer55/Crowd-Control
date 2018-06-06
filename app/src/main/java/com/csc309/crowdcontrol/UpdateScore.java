@@ -9,9 +9,6 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 
 
-
-import static com.csc309.crowdcontrol.PlayLevelThread.canvas;
-
 public class UpdateScore extends GameObject{
 
     private int screenWidth, screenHeight;
