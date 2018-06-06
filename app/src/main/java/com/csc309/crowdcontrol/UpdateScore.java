@@ -6,9 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 
-public class UpdateScore extends GameObject{
-
-    private int screenWidth, screenHeight;
+public class UpdateScore extends GameObject {
+    private int screenWidth;
     private Paint paint;
 
     public int score = 0;
@@ -22,22 +21,13 @@ public class UpdateScore extends GameObject{
 
 
     // score hits and points
-    private final int okay = 100;
-    private final int good = 250;
-    private final int excellent = 500;
+    private static final int okay = 100;
+    private static final int good = 250;
+    private static final int excellent = 500;
 
-    public UpdateScore(int screenWidth, int screenHeight){
-
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
-
-        paint = new Paint();
-    }
-
-    public UpdateScore(Context context, int screenWidth, int screenHeight){
+    public UpdateScore(int screenWidth){
 
         this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
 
         paint = new Paint();
     }

@@ -68,7 +68,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
         objects.add(new ArrowColliderBar(getContext(), screenWidth, screenHeight));
         objects.add(new DJControllerBar(getContext(), screenWidth, screenHeight));
-        score = new UpdateScore(getContext(), screenWidth, screenHeight);
+        score = new UpdateScore(screenWidth);
     }
 
     @Override
@@ -123,12 +123,9 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     }
 
     private void checkedRemoveArrow(Arrow arr) {
-        if(arr != null)
+        if(arr != null && arr.shouldDequeue() && !arr.wasDequeued)
         {
-            if (arr.shouldDequeue() == true && arr.wasDequeued == false)
-            {
-                removeArrow();
-            }
+            removeArrow();
         }
     }
 
@@ -158,7 +155,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         for (Arrow arr : arrowList)
         {
             arr.update(songPos);
-            if(arr.wasMissed == true) {
+            if(arr.wasMissed) {
                 score.incrementMissedCount();
             }
         }
