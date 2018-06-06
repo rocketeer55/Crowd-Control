@@ -29,12 +29,12 @@ public class MusicThread extends Thread
 
         //Might need to sleep() here for a second to give prep time.
         musicPlayer.start();
-        sequencer.Start();
+        sequencer.start();
 
         while (running)
         {
             playLevel.songPos = musicPlayer.getCurrentPosition();
-            sequencer.Update(musicPlayer.getCurrentPosition());
+            sequencer.update(musicPlayer.getCurrentPosition());
 
             //Used for testing/debug
             playLevel.currentBeat = sequencer.currentBeat;
