@@ -30,6 +30,11 @@ public class Arrow extends GameObject {
     private int arrowStartingY; //Where arrows are spawned
     private float arrowTargetY; //Where arrows should end up
 
+
+    public Arrow(DIRECTION mode, float songPosStart, float songPosTarget,
+                 int screenWidth, int screenHeight) {
+
+    }
     //BRAD IS RESPONSIBLE FOR THIS AND WHATEVER CONSEQUENCES ARISE FROM IT
     public Arrow(Context current, DIRECTION mode, float songPosStart, float songPosTarget,
                  int screenWidth, int screenHeight)

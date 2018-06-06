@@ -25,6 +25,13 @@ public class Sequencer
 
     PlayLevel playLevel;
 
+    public Sequencer(BeatMap beatMap) {
+        this.beatMap = beatMap;
+        quarterNotesPerBar = beatMap.beatsPerMeasure;
+        bpm = beatMap.bpm;
+        offset = beatMap.offset * 1000;
+    }
+
     public Sequencer(BeatMap beatMap, PlayLevel playLevel)
     {
         this.playLevel = playLevel;
