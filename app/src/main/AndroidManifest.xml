@@ -31,7 +31,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_play_level"
             android:theme="@style/FullscreenTheme" />
-        <activity android:name=".Debug" />
         <activity
             android:name=".GameOverActivity"
             android:label="@string/title_activity_game_over"

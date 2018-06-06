@@ -6,25 +6,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.provider.MediaStore;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
-import android.os.Bundle;
 import android.app.Activity;
-import android.content.Intent;
-import android.view.Menu;
-import android.view.View;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 {
@@ -132,6 +122,16 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
+    private void checkedRemoveArrow(Arrow arr) {
+        if(arr != null)
+        {
+            if (arr.shouldDequeue() == true && arr.wasDequeued == false)
+            {
+                removeArrow();
+            }
+        }
+    }
+
     // update score here
     // have score extend game object
     // Updates the positional information of every GameObject
@@ -165,17 +165,15 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
         Arrow temp = arrowList.peek();
 
-        if(temp != null)
-        {
-            if (temp.shouldDequeue() == true && temp.wasDequeued == false)
-            {
-                removeArrow();
-            }
-        }
+        checkedRemoveArrow(temp);
 
+        Arrow arr = arrowList.peek();
+        checkSwipe(arr);
+    }
+
+    private void checkSwipe(Arrow arr) {
         if (customGestureDetector.left) {
             // there was a left swipe last frame - DO SOMETHING
-            Arrow arr = arrowList.peek();
             if(arr != null && arr.mode == Arrow.DIRECTION.LEFT)
             {
                 checkArrowSwipe(arr);
@@ -185,7 +183,6 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
         if (customGestureDetector.right) {
             // there was a left swipe last frame - DO SOMETHING
-            Arrow arr = arrowList.peek();
             if(arr != null && arr.mode == Arrow.DIRECTION.RIGHT)
             {
                 checkArrowSwipe(arr);
@@ -195,7 +192,6 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
         if (customGestureDetector.up) {
             // there was a left swipe last frame - DO SOMETHING
-            Arrow arr = arrowList.peek();
             if(arr != null && arr.mode == Arrow.DIRECTION.UP)
             {
                 checkArrowSwipe(arr);
@@ -205,7 +201,6 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
         if (customGestureDetector.down) {
             // there was a left swipe last frame - DO SOMETHING
-            Arrow arr = arrowList.peek();
             if(arr != null && arr.mode == Arrow.DIRECTION.DOWN)
             {
                 checkArrowSwipe(arr);
