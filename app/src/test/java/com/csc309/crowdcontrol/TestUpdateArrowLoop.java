@@ -34,7 +34,7 @@ public class TestUpdateArrowLoop {
         float songPos = 0;
         int screenWidth = 10;
         UpdateScore score;
-        score = new UpdateScore(screenWidth, 1);
+        score = new UpdateScore(screenWidth);
         Arrow arrow1 = new Arrow(Arrow.DIRECTION.DOWN, 5, 200, 200, 200);
         arrowList.add(arrow1);
         int LoopEnterCount = 0;
@@ -56,7 +56,7 @@ public class TestUpdateArrowLoop {
         float songPos = 0;
         int screenWidth = 10;
         UpdateScore score;
-        score = new UpdateScore(screenWidth, 1);
+        score = new UpdateScore(screenWidth);
         Arrow arrow1 = new Arrow(Arrow.DIRECTION.DOWN, 5, 200, 200, 200);
         arrowList.add(arrow1);
         Arrow arrow2 = new Arrow(Arrow.DIRECTION.UP, 5, 200, 200, 200);
@@ -80,7 +80,7 @@ public class TestUpdateArrowLoop {
         float songPos = 0;
         int screenWidth = 10;
         UpdateScore score;
-        score = new UpdateScore(screenWidth, 1);
+        score = new UpdateScore(screenWidth);
         Arrow arrow1 = new Arrow(Arrow.DIRECTION.DOWN, 5, 200, 200, 200);
         arrowList.add(arrow1);
         Arrow arrow2 = new Arrow(Arrow.DIRECTION.UP, 5, 200, 200, 200);
