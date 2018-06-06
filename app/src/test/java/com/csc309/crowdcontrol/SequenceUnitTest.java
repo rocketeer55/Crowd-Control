@@ -28,7 +28,7 @@ public class SequenceUnitTest{
         BeatMap beatMap = new BeatMap();
         Sequencer MyTest = new Sequencer(beatMap);
         String result = MyTest.dirToString(Arrow.DIRECTION.DOWN);
-        assertEquals(result,  "DOWN");
+        assertEquals("DOWN",  result);
     }
 
 
