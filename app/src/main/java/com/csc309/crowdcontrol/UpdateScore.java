@@ -30,6 +30,14 @@ public class UpdateScore extends GameObject{
     int good = 250;
     int excellent = 500;
 
+    public UpdateScore(int screenWidth, int screenHeight){
+
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+
+        paint = new Paint();
+    }
+
     public UpdateScore(Context context, int screenWidth, int screenHeight){
 
         this.screenWidth = screenWidth;
