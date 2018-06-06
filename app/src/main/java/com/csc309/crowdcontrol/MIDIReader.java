@@ -15,7 +15,6 @@ public class MIDIReader
     public static MIDINode tail;
 
     private MIDIReader() {
-        // Do nothing}
     }
 
     private static class MIDINode
@@ -166,6 +165,89 @@ public class MIDIReader
         return returnVal;
     }
 
+    public static void readHeaderChunk(InputStream readStream) throws IOException
+    {
+        //Read through Header Chunk
+        int i = 0;
+        while(i < 4)
+        {
+            readStream.read();
+        }
+
+        int headerLength = 0;
+        i = 0;
+        while(i < 4)
+        {
+            readStream.read();
+            i++;
+        }
+
+        i = 0;
+        while(i < headerLength)
+        {
+            readStream.read();
+            i++;
+        }
+    }
+
+    public static void readTrackChunk(InputStream readStream) throws IOException
+    {
+        int i;
+        //Read through Track Chunk
+        i = 0;
+        while(i < 4)
+        {
+            readStream.read();
+            i++;
+        }
+
+        i = 0;
+        while(i < 4)
+        {
+            readStream.read();
+            i++;
+        }
+
+        i = 0;
+        while(i < 4)
+        {
+            readStream.read();
+            i++;
+        }
+    }
+
+    public static void readOtherInfo(InputStream readStream) throws IOException
+    {
+
+        int tempVal = 0;
+        int i;
+
+        //Read through MIDI Track Name, which is a variable length
+
+        while(tempVal != 255)
+        {
+            tempVal = readStream.read();
+        }
+
+        i = 0;
+
+        //Read through Time Signature Data
+
+        while(i < 7)
+        {
+            i++;
+        }
+
+        //Read through duplicate (for some reason) Time Signature Data
+
+        i = 0;
+        while(i < 8)
+        {
+            readStream.read();
+            i++;
+        }
+    }
+
     public static void readMidi(Context context, int resID)
     {
         Resources resources = context.getResources();
@@ -174,96 +256,11 @@ public class MIDIReader
         try
         {
             int tempVal = 0;
-            String val = "0";
+            String val;
 
-            //Read through Header Chunk
-            int i = 0;
-            while(i < 4)
-            {
-                tempVal = readStream.read();
-                if(tempVal != -1)
-                {
-                    val = Integer.toHexString(tempVal);
-                    i++;
-                }
-            }
-
-            int headerLength = 0;
-            i = 0;
-            while(i < 4)
-            {
-                headerLength += readStream.read();
-                i++;
-            }
-
-
-            i = 0;
-            while(i < headerLength)
-            {
-                readStream.read();
-                i++;
-            }
-
-            //Read through Track Chunk
-            i = 0;
-            while(i < 4)
-            {
-                tempVal = readStream.read();
-                if(tempVal != -1)
-                {
-                    val = Integer.toHexString(tempVal);
-                }
-                i++;
-            }
-
-            int trackHeaderLength = 0;
-            i = 0;
-            while(i < 4)
-            {
-                trackHeaderLength += readStream.read();
-                i++;
-            }
-
-
-            i = 0;
-
-            while(i < 4)
-            {
-                readStream.read();
-                i++;
-            }
-
-            val = "00";
-
-            //Read through MIDI Track Name, which is a variable length
-
-            while(tempVal != 255)
-            {
-                tempVal = readStream.read();
-                val = Integer.toHexString(tempVal);
-            }
-
-
-            i = 0;
-
-            //Read through Time Signature Data
-
-            while(i < 7)
-            {
-                tempVal = readStream.read();
-                val = Integer.toHexString(tempVal);
-                i++;
-            }
-
-            //Read through duplicate (for some reason) Time Signature Data
-
-            i = 0;
-            while(i < 8)
-            {
-                tempVal = readStream.read();
-                val = Integer.toHexString(tempVal);
-                i++;
-            }
+            readHeaderChunk(readStream);
+            readTrackChunk(readStream);
+            readOtherInfo(readStream);
 
             //Read through MIDI events. This is the important information.
 

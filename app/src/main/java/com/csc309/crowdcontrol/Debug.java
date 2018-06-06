@@ -2,6 +2,7 @@ package com.csc309.crowdcontrol;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class Debug extends AppCompatActivity {
 
@@ -22,7 +23,7 @@ public class Debug extends AppCompatActivity {
 
     }
 
-    public void performMIDIReadTest()
+    public void performMIDIReadTest(View view)
     {
         MIDIReader.readMidi(getApplicationContext(), R.raw.thethrillmidi);
     }
