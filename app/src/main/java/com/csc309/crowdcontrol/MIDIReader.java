@@ -15,6 +15,7 @@ public class MIDIReader
     public static MIDINode tail;
 
     public MIDIReader() {
+        // Do nothing
     }
 
     private static class MIDINode
