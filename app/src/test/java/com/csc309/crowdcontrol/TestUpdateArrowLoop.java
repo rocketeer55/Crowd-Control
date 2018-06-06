@@ -15,7 +15,7 @@ public class TestUpdateArrowLoop {
         int screenWidth = 10;
         boolean enteredLoop = false;
         UpdateScore score;
-        score = new UpdateScore(screenWidth, 1);
+        score = new UpdateScore(screenWidth);
         for (Arrow arr : arrowList)
         {
             enteredLoop = true;
