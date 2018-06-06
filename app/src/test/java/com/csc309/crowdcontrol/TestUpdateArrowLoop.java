@@ -34,7 +34,7 @@ public class TestUpdateArrowLoop {
         float songPos = 0;
         int screenWidth = 10;
         UpdateScore score;
-        score = new UpdateScore(screenWidth, 1);
+        score = new UpdateScore(screenWidth);
         Arrow arrow1 = new Arrow(Arrow.DIRECTION.DOWN, 5, 200, 200, 200);
         arrowList.add(arrow1);
         int LoopEnterCount = 0;
@@ -46,7 +46,7 @@ public class TestUpdateArrowLoop {
             }
             LoopEnterCount++;
         }
-        assertEquals(LoopEnterCount, 1);
+        assertEquals(1, LoopEnterCount);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class TestUpdateArrowLoop {
         float songPos = 0;
         int screenWidth = 10;
         UpdateScore score;
-        score = new UpdateScore(screenWidth, 1);
+        score = new UpdateScore(screenWidth);
         Arrow arrow1 = new Arrow(Arrow.DIRECTION.DOWN, 5, 200, 200, 200);
         arrowList.add(arrow1);
         Arrow arrow2 = new Arrow(Arrow.DIRECTION.UP, 5, 200, 200, 200);
@@ -70,7 +70,7 @@ public class TestUpdateArrowLoop {
             }
             LoopEnterCount++;
         }
-        assertEquals(LoopEnterCount, 2);
+        assertEquals(2, LoopEnterCount);
     }
 
     @Test
@@ -80,7 +80,7 @@ public class TestUpdateArrowLoop {
         float songPos = 0;
         int screenWidth = 10;
         UpdateScore score;
-        score = new UpdateScore(screenWidth, 1);
+        score = new UpdateScore(screenWidth);
         Arrow arrow1 = new Arrow(Arrow.DIRECTION.DOWN, 5, 200, 200, 200);
         arrowList.add(arrow1);
         Arrow arrow2 = new Arrow(Arrow.DIRECTION.UP, 5, 200, 200, 200);
@@ -110,6 +110,6 @@ public class TestUpdateArrowLoop {
             }
             LoopEnterCount++;
         }
-        assertEquals(LoopEnterCount, 10);
+        assertEquals(10, LoopEnterCount);
     }
 }
