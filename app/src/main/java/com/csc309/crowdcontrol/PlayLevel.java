@@ -15,7 +15,6 @@ import android.view.WindowManager;
 import android.app.Activity;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Collections;
 
 public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 {
@@ -41,8 +40,6 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
     //Score thing
     private UpdateScore score;
-
-    int davide;
 
     public PlayLevel(Context context)
     {
