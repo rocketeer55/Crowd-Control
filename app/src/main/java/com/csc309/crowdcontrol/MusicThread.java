@@ -11,6 +11,10 @@ public class MusicThread extends Thread
     private MediaPlayer musicPlayer; //Plays the music
     private Sequencer sequencer; //Reference to the parent instance of PlayLevel
 
+    public MusicThread() {
+
+    }
+
     public MusicThread(int songID, BeatMap beatMap, PlayLevel playLevel, Context context) {
         super();
         createMusicPlayer(context, songID);
@@ -46,6 +50,9 @@ public class MusicThread extends Thread
         musicPlayer.release();
     }
 
+    public boolean checkRunning() {
+        return running;
+    }
     public void setRunning(boolean isRunning) {
         running = isRunning;
     }

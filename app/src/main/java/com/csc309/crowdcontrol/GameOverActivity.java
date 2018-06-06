@@ -40,5 +40,8 @@ public class GameOverActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_TEXT, "Hey scrub, check out my new highscore on Crowd Control. Try and beat it i dare ya :) " + x);
         startActivity(Intent.createChooser(intent, "Choose an Email client :"));
     }
+    public String returnString() {
+        return x;
+    }
 }
 

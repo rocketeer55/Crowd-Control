@@ -13,6 +13,9 @@ public class DJControllerBar extends GameObject {
     private Paint paint;
     private Bitmap turntable;
 
+    public DJControllerBar() {
+
+    }
     public DJControllerBar(Context context, int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;

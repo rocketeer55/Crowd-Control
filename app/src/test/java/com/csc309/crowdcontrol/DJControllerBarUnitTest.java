@@ -1,8 +1,6 @@
 package com.csc309.crowdcontrol;
 
 import org.junit.Test;
-
-
 import static org.junit.Assert.*;
 
 /**
@@ -10,22 +8,22 @@ import static org.junit.Assert.*;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class ArrowUnitTest{
-    public ArrowUnitTest() {
+public class DJControllerBarUnitTest{
+    public DJControllerBarUnitTest() {
     }
 
 
     @Test
-    public void ArrowDeleteTest() throws Exception {
-        Arrow arrow = new Arrow(Arrow.DIRECTION.DOWN, 5, 200, 200, 200);
-        Boolean result = arrow.shouldDelete();
+    public void DJDeleteTest() throws Exception {
+        DJControllerBar dj = new DJControllerBar();
+        Boolean result = dj.shouldDelete();
         assertFalse(result);
     }
 
     @Test
-    public void ArrowDequeueTest() throws Exception {
-        Arrow arrow = new Arrow(Arrow.DIRECTION.DOWN, 5, 200, 200, 200);
-        Boolean result = arrow.shouldDequeue();
+    public void DJDequeueTest() throws Exception {
+        DJControllerBar dj = new DJControllerBar();
+        Boolean result = dj.shouldDequeue();
         assertFalse(result);
     }
     //want to test score counter: if adding properly
