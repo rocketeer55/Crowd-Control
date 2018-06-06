@@ -285,7 +285,7 @@ public class MIDIReader
 
         try
         {
-            int tempVal = 0;
+            int tempVal = 0x00;
             String val;
 
             readHeaderChunk(readStream);
