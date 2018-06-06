@@ -158,6 +158,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
             arr.update(songPos);
             if(arr.wasMissed) {
                 score.incrementMissedCount();
+                score.resetNoteStreak();
             }
         }
 
