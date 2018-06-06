@@ -68,7 +68,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
         objects.add(new ArrowColliderBar(getContext(), screenWidth, screenHeight));
         objects.add(new DJControllerBar(getContext(), screenWidth, screenHeight));
-        score = new UpdateScore(getContext(), screenWidth, screenHeight);
+        score = new UpdateScore(screenWidth);
     }
 
     @Override
@@ -83,6 +83,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
     {
+        // Don't need to do anything here
     }
 
     //Starts the MusicThread and PlayLevelThread
@@ -123,12 +124,9 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     }
 
     private void checkedRemoveArrow(Arrow arr) {
-        if(arr != null)
+        if(arr != null && arr.shouldDequeue() && !arr.wasDequeued)
         {
-            if (arr.shouldDequeue() == true && arr.wasDequeued == false)
-            {
-                removeArrow();
-            }
+            removeArrow();
         }
     }
 
@@ -158,7 +156,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         for (Arrow arr : arrowList)
         {
             arr.update(songPos);
-            if(arr.wasMissed == true) {
+            if(arr.wasMissed) {
                 score.incrementMissedCount();
             }
         }
@@ -172,9 +170,13 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     }
 
     private void checkSwipe(Arrow arr) {
+        if (arr == null) {
+            return;
+        }
+
         if (customGestureDetector.left) {
             // there was a left swipe last frame - DO SOMETHING
-            if(arr != null && arr.mode == Arrow.DIRECTION.LEFT)
+            if(arr.mode == Arrow.DIRECTION.LEFT)
             {
                 checkArrowSwipe(arr);
             }
@@ -183,7 +185,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
         if (customGestureDetector.right) {
             // there was a left swipe last frame - DO SOMETHING
-            if(arr != null && arr.mode == Arrow.DIRECTION.RIGHT)
+            if(arr.mode == Arrow.DIRECTION.RIGHT)
             {
                 checkArrowSwipe(arr);
             }
@@ -192,7 +194,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
         if (customGestureDetector.up) {
             // there was a left swipe last frame - DO SOMETHING
-            if(arr != null && arr.mode == Arrow.DIRECTION.UP)
+            if(arr.mode == Arrow.DIRECTION.UP)
             {
                 checkArrowSwipe(arr);
             }
@@ -201,7 +203,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
         if (customGestureDetector.down) {
             // there was a left swipe last frame - DO SOMETHING
-            if(arr != null && arr.mode == Arrow.DIRECTION.DOWN)
+            if(arr.mode == Arrow.DIRECTION.DOWN)
             {
                 checkArrowSwipe(arr);
             }
@@ -235,7 +237,9 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
             canvas.drawPaint(paint);
 
             for (GameObject o : objects) {
-                if (!o.shouldDelete()) {o.draw(canvas);};
+                if (!o.shouldDelete()) {
+                    o.draw(canvas);
+                }
             }
 
             for (Arrow arr : arrowList)

@@ -23,7 +23,7 @@ public class Debug extends AppCompatActivity {
 
     }
 
-    public void performMIDIReadTest(View view)
+    public void performMIDIReadTest()
     {
         MIDIReader.readMidi(getApplicationContext(), R.raw.thethrillmidi);
     }

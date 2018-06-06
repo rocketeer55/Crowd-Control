@@ -8,8 +8,6 @@ public class PlayLevelThread extends Thread {
     private SurfaceHolder surfaceHolder;
     private com.csc309.crowdcontrol.PlayLevel playLevel;
     private boolean running;
-    private int targetFPS = 60;
-    private double averageFPS;
 
     public Canvas canvas;
 
