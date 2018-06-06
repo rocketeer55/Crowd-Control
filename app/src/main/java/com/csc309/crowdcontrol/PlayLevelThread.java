@@ -11,8 +11,6 @@ public class PlayLevelThread extends Thread {
 
     public Canvas canvas;
 
-
-
     public PlayLevelThread(SurfaceHolder surfaceHolder, PlayLevel playLevel) {
         super();
         this.surfaceHolder = surfaceHolder;

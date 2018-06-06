@@ -9,7 +9,7 @@ public class NoteUnitTest {
     @Test
     public void MeasureTest() {
         Note note = new Note(5, Arrow.DIRECTION.DOWN);
-        assertEquals(5, note.Measure());
+        assertEquals(5, note.getMeasure());
     }
 
     @Test

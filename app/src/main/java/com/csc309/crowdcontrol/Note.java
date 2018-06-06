@@ -18,7 +18,7 @@ public class Note
         arrowDirection = dir;
     }
 
-    public int Measure() {
+    public int getMeasure() {
         return measure;
     }
 }
