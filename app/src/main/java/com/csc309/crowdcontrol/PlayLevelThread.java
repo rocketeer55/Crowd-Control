@@ -3,8 +3,6 @@ package com.csc309.crowdcontrol;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
-import com.csc309.crowdcontrol.PlayLevel;
-
 public class PlayLevelThread extends Thread {
 
     private SurfaceHolder surfaceHolder;
@@ -13,7 +11,7 @@ public class PlayLevelThread extends Thread {
     private int targetFPS = 60;
     private double averageFPS;
 
-    public static Canvas canvas;
+    public Canvas canvas;
 
     public PlayLevelThread(SurfaceHolder surfaceHolder, PlayLevel playLevel) {
         super();
@@ -22,21 +20,13 @@ public class PlayLevelThread extends Thread {
     }
 
     @Override
-    public void run() 
+    public void run()
     {
         long startTime;
         long lastTime = System.nanoTime();
-        long timeMillis;
-        long waitTime;
-        long totalTime = 0;
-        int frameCount = 0;
-        long targetTime = 1000 / targetFPS;
 
-        double amountOfTicks = 60.0;
         double ns = 1000000000;
         double delta = 0;
-        long timer = System.currentTimeMillis();
-        int frames = 0;
 
         while (running) {
             startTime = System.nanoTime();
@@ -53,7 +43,9 @@ public class PlayLevelThread extends Thread {
                         this.playLevel.update();
                         this.playLevel.draw(canvas);
                     }
-                } catch (Exception e) {} finally {
+                } catch (Exception e) {
+                    // This saves our code btw
+                } finally {
                     if (canvas != null) {
                         try {
                             surfaceHolder.unlockCanvasAndPost(canvas);

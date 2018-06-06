@@ -15,7 +15,6 @@ public class MIDIReader
     public static MIDINode tail;
 
     private MIDIReader() {
-        // Do nothing}
     }
 
     private static class MIDINode
@@ -166,6 +165,119 @@ public class MIDIReader
         return returnVal;
     }
 
+    public static void readHeaderChunk(InputStream readStream) throws IOException
+    {
+        //Read through Header Chunk
+        int tempVal;
+        int i = 0;
+
+        while(i < 4)
+        {
+            tempVal = readStream.read();
+            if(tempVal != -1)
+            {
+                i++;
+            }
+        }
+
+        int headerLength = 0;
+        i = 0;
+        while(i < 4)
+        {
+            headerLength += readStream.read();
+            i++;
+        }
+
+        i = 0;
+        while(i < headerLength)
+        {
+            readStream.read();
+            i++;
+        }
+    }
+
+    public static void readTrackChunk(InputStream readStream) throws IOException
+    {
+        int i;
+        int tempVal = 0;
+
+        //Read through Track Chunk
+        i = 0;
+        while(i < 4)
+        {
+            readStream.read();
+            i++;
+        }
+
+        i = 0;
+        while(i < 4)
+        {
+            readStream.read();
+            i++;
+        }
+
+        i = 0;
+
+        while(i < 4)
+        {
+            readStream.read();
+            i++;
+        }
+
+        //Read through MIDI Track Name, which is a variable length
+        while(tempVal != 255)
+        {
+            tempVal = readStream.read();
+        }
+    }
+
+    public static void readOtherInfo(InputStream readStream) throws IOException
+    {
+        int i = 0;
+
+        //Read through Time Signature Data
+        while(i < 7)
+        {
+            readStream.read();
+            i++;
+        }
+
+        i = 0;
+        while(i < 8)
+        {
+            readStream.read();
+            i++;
+        }
+    }
+
+    public static void handleMidiMessage(InputStream readStream, int tempVal, String val)
+            throws IOException
+    {
+        //Note On Message
+        if (tempVal == 0x90)
+            {
+                String statusByte = val;
+
+                tempVal = readStream.read();
+                val = Integer.toHexString(tempVal);
+                String key = val;
+
+                tempVal = readStream.read();
+                val = Integer.toHexString(tempVal);
+                String vel = val;
+
+                enqueue(new MIDINode(statusByte, key, vel, elapsedTime));
+            }
+
+        //Note Off Message
+        else if (tempVal == 0x80)
+        {
+            readStream.read();
+            readStream.read();
+            dequeue();
+        }
+    }
+
     public static void readMidi(Context context, int resID)
     {
         Resources resources = context.getResources();
@@ -173,97 +285,12 @@ public class MIDIReader
 
         try
         {
-            int tempVal = 0;
-            String val = "0";
+            int tempVal = 0x00;
+            String val;
 
-            //Read through Header Chunk
-            int i = 0;
-            while(i < 4)
-            {
-                tempVal = readStream.read();
-                if(tempVal != -1)
-                {
-                    val = Integer.toHexString(tempVal);
-                    i++;
-                }
-            }
-
-            int headerLength = 0;
-            i = 0;
-            while(i < 4)
-            {
-                headerLength += readStream.read();
-                i++;
-            }
-
-
-            i = 0;
-            while(i < headerLength)
-            {
-                readStream.read();
-                i++;
-            }
-
-            //Read through Track Chunk
-            i = 0;
-            while(i < 4)
-            {
-                tempVal = readStream.read();
-                if(tempVal != -1)
-                {
-                    val = Integer.toHexString(tempVal);
-                }
-                i++;
-            }
-
-            int trackHeaderLength = 0;
-            i = 0;
-            while(i < 4)
-            {
-                trackHeaderLength += readStream.read();
-                i++;
-            }
-
-
-            i = 0;
-
-            while(i < 4)
-            {
-                readStream.read();
-                i++;
-            }
-
-            val = "00";
-
-            //Read through MIDI Track Name, which is a variable length
-
-            while(tempVal != 255)
-            {
-                tempVal = readStream.read();
-                val = Integer.toHexString(tempVal);
-            }
-
-
-            i = 0;
-
-            //Read through Time Signature Data
-
-            while(i < 7)
-            {
-                tempVal = readStream.read();
-                val = Integer.toHexString(tempVal);
-                i++;
-            }
-
-            //Read through duplicate (for some reason) Time Signature Data
-
-            i = 0;
-            while(i < 8)
-            {
-                tempVal = readStream.read();
-                val = Integer.toHexString(tempVal);
-                i++;
-            }
+            readHeaderChunk(readStream);
+            readTrackChunk(readStream);
+            readOtherInfo(readStream);
 
             //Read through MIDI events. This is the important information.
 
@@ -303,29 +330,11 @@ public class MIDIReader
                     break;
                 }
 
-                //Note On Message
-                else if (tempVal == 0x90)
+                else
                 {
-                    String statusByte = val;
-
-                    tempVal = readStream.read();
-                    val = Integer.toHexString(tempVal);
-                    String key = val;
-
-                    tempVal = readStream.read();
-                    val = Integer.toHexString(tempVal);
-                    String vel = val;
-
-                    enqueue(new MIDINode(statusByte, key, vel, elapsedTime));
+                    handleMidiMessage(readStream, tempVal, val);
                 }
 
-                //Note Off Message
-                else if (tempVal == 0x80)
-                {
-                    readStream.read();
-                    readStream.read();
-                    dequeue();
-                }
             }
         }
         catch (IOException e)
@@ -366,20 +375,6 @@ public class MIDIReader
             return null;
         }
 
-        MIDINode returnNode = head;
-
-        head = head.next;
-
-        if(head == null)
-        {
-            tail = null;
-        }
-
-        return returnNode;
-    }
-
-    public static MIDINode dequeueNode()
-    {
         MIDINode returnNode = head;
 
         head = head.next;
