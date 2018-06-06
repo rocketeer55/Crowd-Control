@@ -13,5 +13,12 @@ public class MusicThreadTest {
         mt.setRunning(true);
         assertTrue(mt.checkRunning());
     }
+    @Test
+    public void MusicNotRunning() {
+        MusicThread mt = new MusicThread();
+        mt.setRunning(false);
+        assertFalse(mt.checkRunning());
+    }
+
 }
 
