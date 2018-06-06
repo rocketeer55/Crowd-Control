@@ -184,6 +184,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
             arr.update(songPos);
             if(arr.wasMissed == true) {
                 missedCount +=1;
+                noteStreak = 0;
             }
         }
 
@@ -209,12 +210,15 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                 {
                     // calculate delta
                     delta = Math.abs(songPos - arr.songPosTarget);
-                    if (0.333 >= delta && delta >= 0)
+                    if (33 >= delta && delta >= 0)
                         score += excellent * multipler;
-                    else if (0.666 >= delta && delta > 0.333)
+                    else if (66 >= delta && delta > 33)
                         score += good * multipler;
                     else
                         score += okay * multipler;
+
+                    // UpdateScore myScore = new UpdateScore(getContext(),screenWidth,screenHeight);
+                    // myScore.update(delta);
                     missedCount = 0;
                     noteStreak ++;
                     removeArrow();
@@ -299,6 +303,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                         && songPos < (arr.songPosTarget + 100 ) &&
                         arr.mode == Arrow.DIRECTION.DOWN)
                 {
+
                     // calculate delta
                     delta = Math.abs(songPos - arr.songPosTarget);
                     if (33 >= delta && delta >= 0)
@@ -307,6 +312,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                         score += good;
                     else
                         score += okay;
+
                     missedCount = 0;
                     noteStreak ++;
                     removeArrow();

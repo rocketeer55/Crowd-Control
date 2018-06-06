@@ -26,7 +26,6 @@ public class UpdateScore extends GameObject{
 
 
     // score hits and points
-    int miss = 0;
     int okay = 100;
     int good = 250;
     int excellent = 500;
@@ -55,7 +54,12 @@ public class UpdateScore extends GameObject{
 
     public void update(float delta){
 
-       this.score = score;
+        if (0.333 >= delta && delta >= 0)
+            score += excellent * multipler;
+        else if (0.666 >= delta && delta > 0.333)
+            score += good * multipler;
+        else
+            score += okay * multipler;
     }
 
     public boolean shouldDelete(){
