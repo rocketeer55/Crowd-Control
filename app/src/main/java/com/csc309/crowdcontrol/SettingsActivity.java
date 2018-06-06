@@ -20,7 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
     {
         try
         {
-            SeekBar volumeSeekbar = (SeekBar) findViewById(R.id.seekBar);
+            SeekBar volumeSeekbar = findViewById(R.id.seekBar);
             audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             volumeSeekbar.setMax(audioManager
                     .getStreamMaxVolume(AudioManager.STREAM_MUSIC));
