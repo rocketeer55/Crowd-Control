@@ -34,7 +34,7 @@ public class Sequencer
         offset = beatMap.offset * 1000;
     }
 
-    public void Start()
+    public void start()
     {
         lastBeat = 0;
         currentBeat = 0;
@@ -46,8 +46,6 @@ public class Sequencer
         sixteenthNote = quarterNote/4;
 
         lengthOfMeasure = (quarterNotesPerBar * quarterNote);
-
-        //offset += lengthOfMeasure;
 
         triggerTime = offset;
         lastBeatLength = offset;
@@ -129,7 +127,7 @@ public class Sequencer
         return returnVal;
     }
 
-    public void Update(float songPosition)
+    public void update(float songPosition)
     {
         if(songPosition > triggerTime && currentNote != null)
         {
@@ -138,7 +136,6 @@ public class Sequencer
             lastBeat += lastBeatLength;
             lastBeatLength = lengthToFloat(currentNote.noteLength);
 
-            //System.out.println("SEQUENCER: SPAWNING ARROW");
             playLevel.spawnArrow(currentNote.arrowDirection, songPosition, (songPosition + lengthOfMeasure));
 
             currentNote = beatMap.dequeue();
