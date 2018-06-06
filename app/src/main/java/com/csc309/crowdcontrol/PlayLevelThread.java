@@ -43,6 +43,8 @@ public class PlayLevelThread extends Thread {
                         this.playLevel.update();
                         this.playLevel.draw(canvas);
                     }
+                } catch (Exception e) {
+                    // This saves our code btw
                 } finally {
                     if (canvas != null) {
                         try {

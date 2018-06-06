@@ -89,12 +89,9 @@ public class PlayLevelActivity extends AppCompatActivity {
 
 
         //Spawns an instance of PlayLevel
-        try {
-            PlayLevel playLevel = new PlayLevel(this);
-            setContentView(playLevel);
-        } catch (FileNotFoundException e) {
-            // Relatable - Spencer
-        }
+
+        PlayLevel playLevel = new PlayLevel(this);
+        setContentView(playLevel);
     }
 
     @Override

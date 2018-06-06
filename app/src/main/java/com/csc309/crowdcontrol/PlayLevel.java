@@ -40,7 +40,6 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     //Graphics Stuff
     private int screenWidth;
     private int screenHeight;
-    private int frameCount = 0;
     private ArrayList<GameObject> objects;
     Paint paint = new Paint();
 
@@ -49,14 +48,10 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
     private CustomGestureDetector customGestureDetector;
     private LinkedList<Arrow> arrowList;
 
-    private int score = 0;
-    private int multipler = 1;
+    //Score thing
+    private UpdateScore score;
 
-    private int missedCount = 0;
-    private int noteStreak = 0;
-
-
-    public PlayLevel(Context context) throws FileNotFoundException
+    public PlayLevel(Context context)
     {
         super(context);
 
@@ -83,7 +78,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
 
         objects.add(new ArrowColliderBar(getContext(), screenWidth, screenHeight));
         objects.add(new DJControllerBar(getContext(), screenWidth, screenHeight));
-        //objects.add(new UpdateScore(getContext(), screenWidth, screenHeight));
+        score = new UpdateScore(getContext(), screenWidth, screenHeight);
     }
 
     @Override
@@ -137,43 +132,24 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
-
     // update score here
     // have score extend game object
     // Updates the positional information of every GameObject
     public void update()
     {
+        score.update(songPos);
 
-        // use this delta var to calculate score
-        float delta;
-
-        // score hits and points
-        int okay = 100;
-        int good = 250;
-        int excellent = 500;
-
-        if(noteStreak >= 10)
-            multipler = 8;
-        else if(noteStreak >= 7)
-            multipler = 4;
-        else if(noteStreak >= 4)
-            multipler = 2;
-        else
-            multipler = 1;
-
-
-            //Delete if issue, should launch the gameover option
-        if(missedCount >= 10) {
+        //Delete if issue, should launch the gameover option
+        if(score.getMissedCount() >= 10) {
             Context context = getContext();
             Intent intent = new Intent(context, GameOverActivity.class);
-            intent.putExtra("Score", score);
+            intent.putExtra("Score", score.getScore());
             context.startActivity(intent);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 
             ((Activity) context).finish();
-            missedCount = 0;
-
+            score.resetMissedCount();
         }
         for (GameObject o : objects) {
             o.update(songPos);
@@ -183,8 +159,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         {
             arr.update(songPos);
             if(arr.wasMissed == true) {
-                missedCount +=1;
-                noteStreak = 0;
+                score.incrementMissedCount();
             }
         }
 
@@ -201,125 +176,57 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
         if (customGestureDetector.left) {
             // there was a left swipe last frame - DO SOMETHING
             Arrow arr = arrowList.peek();
-            if(arr != null)
+            if(arr != null && arr.mode == Arrow.DIRECTION.LEFT)
             {
-                if(songPos > (arr.songPosTarget - 100)
-                        && songPos < (arr.songPosTarget + 100 ) &&
-                        arr.mode == Arrow.DIRECTION.LEFT)
-                {
-                    // calculate delta
-                    delta = Math.abs(songPos - arr.songPosTarget);
-                    if (33 >= delta && delta >= 0)
-                        score += excellent * multipler;
-                    else if (66 >= delta && delta > 33)
-                        score += good * multipler;
-                    else
-                        score += okay * multipler;
-
-                    // UpdateScore myScore = new UpdateScore(getContext(),screenWidth,screenHeight);
-                    // myScore.update(delta);
-                    missedCount = 0;
-                    noteStreak ++;
-                    removeArrow();
-                }
-                else {
-                    missedCount += 1;
-                    noteStreak = 0;
-
-                }
+                checkArrowSwipe(arr);
             }
             // set it back to false after handling the swipe
             customGestureDetector.left = false;
         }
         if (customGestureDetector.right) {
-            // there was a right swipe last frame - DO SOMETHING
+            // there was a left swipe last frame - DO SOMETHING
             Arrow arr = arrowList.peek();
-            if(arr != null)
+            if(arr != null && arr.mode == Arrow.DIRECTION.RIGHT)
             {
-                if(songPos > (arr.songPosTarget - 100)
-                        && songPos < (arr.songPosTarget + 100 ) &&
-                        arr.mode == Arrow.DIRECTION.RIGHT)
-                {
-                    // calculate delta
-                    delta = Math.abs(songPos - arr.songPosTarget);
-                    if (33 >= delta && delta >= 0)
-                        score += excellent * multipler;
-                    else if (66 >= delta && delta > 33)
-                        score += good * multipler;
-                    else
-                        score += okay * multipler;
-                    missedCount = 0;
-                    noteStreak ++;
-                    removeArrow();
-                }
-                else {
-                    missedCount += 1;
-                    noteStreak = 0;
-
-                }
+                checkArrowSwipe(arr);
             }
             // set it back to false after handling the swipe
             customGestureDetector.right = false;
         }
         if (customGestureDetector.up) {
-            // there was an up swipe last frame - DO SOMETHING
+            // there was a left swipe last frame - DO SOMETHING
             Arrow arr = arrowList.peek();
-            if(arr != null)
+            if(arr != null && arr.mode == Arrow.DIRECTION.UP)
             {
-                if(songPos > (arr.songPosTarget - 100)
-                        && songPos < (arr.songPosTarget + 100 ) &&
-                        arr.mode == Arrow.DIRECTION.UP)
-                {
-                    // calculate delta
-                    delta = Math.abs(songPos - arr.songPosTarget);
-                    if (33 >= delta && delta >= 0)
-                        score += excellent * multipler;
-                    else if (66 >= delta && delta > 33)
-                        score += good * multipler;
-                    else
-                        score += okay * multipler;
-                    missedCount = 0;
-                    noteStreak ++;
-                    removeArrow();
-                }
-                else {
-                    missedCount += 1;
-                    noteStreak = 0;
-                }
+                checkArrowSwipe(arr);
             }
             // set it back to false after handling the swipe
             customGestureDetector.up = false;
         }
         if (customGestureDetector.down) {
-            // there was a down swipe last frame - DO SOMETHING
+            // there was a left swipe last frame - DO SOMETHING
             Arrow arr = arrowList.peek();
-            if(arr != null)
+            if(arr != null && arr.mode == Arrow.DIRECTION.DOWN)
             {
-                if(songPos > (arr.songPosTarget - 100)
-                        && songPos < (arr.songPosTarget + 100 ) &&
-                        arr.mode == Arrow.DIRECTION.DOWN)
-                {
-
-                    // calculate delta
-                    delta = Math.abs(songPos - arr.songPosTarget);
-                    if (33 >= delta && delta >= 0)
-                        score += excellent;
-                    else if (66 >= delta && delta > 33)
-                        score += good;
-                    else
-                        score += okay;
-
-                    missedCount = 0;
-                    noteStreak ++;
-                    removeArrow();
-                }
-                else {
-                    missedCount += 1;
-                    noteStreak = 0;
-                }
+                checkArrowSwipe(arr);
             }
             // set it back to false after handling the swipe
             customGestureDetector.down = false;
+        }
+    }
+
+    private void checkArrowSwipe(Arrow arr) {
+        if(songPos > (arr.songPosTarget - 100)
+                && songPos < (arr.songPosTarget + 100 ))
+        {
+            // The arrow isn't missed!
+            score.updateScore(arr.songPosTarget);
+            score.resetMissedCount();
+            removeArrow();
+        }
+        else {
+            score.incrementMissedCount();
+            score.resetNoteStreak();
         }
     }
 
@@ -341,17 +248,7 @@ public class PlayLevel extends SurfaceView implements SurfaceHolder.Callback
                 arr.draw(canvas);
             }
 
-            paint.setColor(Color.BLUE);
-            paint.setStyle(Paint.Style.FILL);
-            canvas.drawRect(0, 0, screenWidth - 1, 100, paint);
-
-            paint.setColor(Color.WHITE);
-            paint.setTextSize(48f);
-            canvas.drawText("Score: " + score, 20,80,paint);
-
-            paint.setColor(Color.WHITE);
-            paint.setTextSize(48f);
-            canvas.drawText("Multipler: " + multipler + "x", screenWidth/2,80,paint);
+            score.draw(canvas);
         }
     }
 
